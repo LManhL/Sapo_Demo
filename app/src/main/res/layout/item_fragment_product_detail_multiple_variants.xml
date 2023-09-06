@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/ivProductDetailMultipleVariantsSubArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_subdirectory_arrow" />
+
+    <ImageView
+        android:id="@+id/ivProductDetailMultipleVariantsIllustration"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/ivProductDetailMultipleVariantsSubArrow"
+        android:scaleType="centerInside"
+        android:src="@color/purple_500" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/ivProductDetailMultipleVariantsIllustration"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvProductDetailMultipleVariantsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="175dp"
+            android:text="Coca cola - đỏ - nhôm"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvProductDetailMultipleVariantsSKU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="175dp"
+            android:text="SKU: 123456789" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvProductDetailMultipleVariantsPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvProductDetailMultipleVariantsOnHand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tồn kho: 50"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvProductDetailMultipleVariantsAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Có thể bán: 50"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+</RelativeLayout>

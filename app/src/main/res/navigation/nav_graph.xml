@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/productListFragment">
+
+    <fragment
+        android:id="@+id/productListFragment"
+        tools:layout="@layout/fragment_product_list"
+        android:name="com.example.sapodemo.ui.product.fragment.ProductListFragment"
+        android:label="SẢN PHẨM" >
+        <action
+            android:id="@+id/action_productListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_productListFragment_to_variantDetailFragment"
+            app:destination="@id/variantDetailFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_product_detail"
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.sapodemo.ui.product.fragment.ProductDetailFragment"
+        android:label="CHI TIẾT SẢN PHẨM"
+        >
+        <action
+            android:id="@+id/action_productDetailFragment_to_variantDetailFragment"
+            app:destination="@id/variantDetailFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_variant_detail"
+        android:id="@+id/variantDetailFragment"
+        android:name="com.example.sapodemo.ui.product.fragment.VariantDetailFragment"
+        android:label="CHI TIẾT PHIÊN BẢN"
+        >
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_order"
+        android:id="@+id/orderFragment"
+        android:name="com.example.sapodemo.ui.order.fragment.OrderFragment"
+        android:label="ĐƠN HÀNG"
+        >
+        <action
+            android:id="@+id/action_orderFragment_to_productSelectionFragment"
+            app:destination="@id/productSelectionFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_product_selection"
+        android:id="@+id/productSelectionFragment"
+        android:name="com.example.sapodemo.ui.order.fragment.ProductSelectionFragment"
+        android:label="CHỌN SẢN PHẨM"
+        />
+</navigation>

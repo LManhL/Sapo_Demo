@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_menu_change_type"
+        app:showAsAction="ifRoom"
+        android:title="Display custom"
+        android:icon="@drawable/ic_store"
+        />
+    <item
+        android:id="@+id/item_menu_display_custom"
+        app:showAsAction="ifRoom"
+        android:title="Display custom"
+        android:icon="@drawable/ic_setting"
+        />
+</menu>

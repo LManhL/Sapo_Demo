@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/tvProductSelectionQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-10dp"
+            android:layout_toRightOf="@id/ivProductSelectionIllustration"
+            android:background="@drawable/shape_cir_pri_bg_blue_stroke_corner_light"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/ivProductSelectionIllustration"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerInside"
+            android:src="@color/purple_500" />
+
+        <TextView
+            android:id="@+id/tvProductSelectionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="60dp"
+            android:layout_toRightOf="@id/ivProductSelectionIllustration"
+            android:text="Coca cola"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvProductSelectionSKUCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProductSelectionName"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            android:layout_toRightOf="@+id/ivProductSelectionIllustration"
+            android:text="SKU: 1234566678"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvProductSelectionCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvProductSelectionName"
+            android:layout_alignParentEnd="true"
+            android:text="10000"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvProductSelectionAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvProductSelectionSKUCode"
+            android:layout_alignParentEnd="true"
+            android:text="50"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
