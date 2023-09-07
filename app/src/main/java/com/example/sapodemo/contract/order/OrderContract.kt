@@ -8,6 +8,7 @@ class OrderContract {
         fun handleMinus(productOrder: ProductOrder, position: Int)
         fun handleAdd(productOrder: ProductOrder, position: Int)
         fun handleCancel(productOrder: ProductOrder, position: Int)
+        fun handleSubmitQuantity(productOrder: ProductOrder, position: Int, numberInStringType: String)
         fun handleSelectOrderSource(newOrderSource: OrderSource, newPosition: Int)
         fun calculateTotalQuantity(): Double
         fun calculateTotalPrice(): Double

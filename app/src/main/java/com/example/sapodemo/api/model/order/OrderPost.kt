@@ -132,7 +132,7 @@ class OrderPost(){
     @Json(name = "tenant_id")
     var tenantId: Int? = null
     @Json(name = "total")
-    var total: Int? = null
+    var total: Double? = null
     @Json(name = "total_discount")
     var totalDiscount: Int? = null
     @Json(name = "total_order_exchange_amount")

@@ -22,12 +22,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="60dp"
-            android:layout_toRightOf="@id/ivVariantListIllustration"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/tvVariantListCost"
+            android:layout_toEndOf="@id/ivVariantListIllustration"
             android:text="Coca cola"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvVariantListSKUCode"
@@ -36,10 +40,14 @@
             android:layout_below="@id/tvVariantListName"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="60dp"
-            android:layout_toRightOf="@+id/ivVariantListIllustration"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/tvVariantListAvailable"
+            android:layout_toEndOf="@+id/ivVariantListIllustration"
             android:text="SKU: 1234566678"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvVariantListCost"

@@ -6,6 +6,8 @@ import com.example.sapodemo.model.formatter.FormatNumberUtil
 class ProductOrder() : Variant() {
 
     companion object{
+
+        const val MAX_QUANTITY = 999999.999
         fun getItemLoading(): ProductOrder {
             val productOrder = ProductOrder()
             productOrder.id = ID_LOADING
@@ -25,7 +27,7 @@ class ProductOrder() : Variant() {
         return variantRetailPrice * quantity
     }
     fun quantityToString(): String{
-        return FormatNumberUtil.formatNumber(quantity)
+        return FormatNumberUtil.formatNumberCeil(quantity)
     }
     fun copyOf(): ProductOrder{
         val productOrderCopy = ProductOrder()

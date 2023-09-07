@@ -700,7 +700,7 @@
                 android:paddingBottom="20dp"
                 android:text="@string/delete_product"
                 android:textAllCaps="false"
-                android:textColor="#EC0B57"
+                android:textColor="@color/red"
                 android:textSize="16sp"
                 android:textStyle="normal" />
         </LinearLayout>

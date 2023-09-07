@@ -18,6 +18,7 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
     var onClickMinus: ((ProductOrder, Int)->Unit)? = null
     var onClickAdd: ((ProductOrder, Int)->Unit)? = null
     var onClickCancel: ((ProductOrder, Int)->Unit)? = null
+    var onClickChangeQuantity: ((ProductOrder, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_fragment_order, parent, false)
@@ -51,6 +52,10 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
             cancel.setOnClickListener {
                 onClickCancel?.invoke(currentProductOrder,adapterPosition)
             }
+            quantity.setOnClickListener{
+                onClickChangeQuantity?.invoke(currentProductOrder, adapterPosition)
+            }
+
         }
         fun bind(productOrder: ProductOrder){
             currentProductOrder = productOrder

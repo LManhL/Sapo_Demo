@@ -1,0 +1,191 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:text="1"
+                android:textSize="24sp"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:text="2"
+                android:textSize="24sp"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="4"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="5"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="6"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="7"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="8"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="9"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardDot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="."
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+            <Button
+                android:id="@+id/btnCustomKeyBoardNumber0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="0"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+            <Button
+                android:id="@+id/btnCustomKeyBoardDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textSize="24sp"
+                android:text="del"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_margin="5dp"
+                android:text="@string/cancel"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+            <Button
+                android:id="@+id/btnCustomKeyBoardConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/confirm"
+                android:layout_margin="5dp"
+                android:background="@drawable/shape_rec_white_bg_grey_stroke_corner_small"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</merge>

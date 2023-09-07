@@ -12,8 +12,8 @@
             android:id="@+id/tvProductSelectionQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-10dp"
-            android:layout_toRightOf="@id/ivProductSelectionIllustration"
+            android:layout_marginStart="-10dp"
+            android:layout_toEndOf="@id/ivProductSelectionIllustration"
             android:background="@drawable/shape_cir_pri_bg_blue_stroke_corner_light"
             android:gravity="center"
             android:text="1"
@@ -37,12 +37,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="60dp"
-            android:layout_toRightOf="@id/ivProductSelectionIllustration"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/tvProductSelectionCost"
+            android:layout_toEndOf="@id/ivProductSelectionIllustration"
             android:text="Coca cola"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvProductSelectionSKUCode"
@@ -51,10 +55,14 @@
             android:layout_below="@id/tvProductSelectionName"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="60dp"
-            android:layout_toRightOf="@+id/ivProductSelectionIllustration"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/tvProductSelectionAvailable"
+            android:layout_toEndOf="@+id/ivProductSelectionIllustration"
             android:text="SKU: 1234566678"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvProductSelectionCost"

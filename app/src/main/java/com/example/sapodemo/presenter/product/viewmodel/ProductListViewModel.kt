@@ -9,54 +9,32 @@ import com.example.sapodemo.model.Variant
 
 
 class ProductListViewModel: ViewModel() {
-    val products = MutableLiveData<MutableList<Product>>()
-    val variants = MutableLiveData<MutableList<Variant>>()
-    val totalProductList = MutableLiveData<Int>()
-    val totalVariantList = MutableLiveData<Int>()
+    val products = MutableLiveData<MutableList<ProductPrototype>>()
+    val total = MutableLiveData<Int>()
 
     init {
-        totalProductList.value = 0
-        totalVariantList.value = 0
+        total.value = 0
     }
-    fun addToProductList(product: Product){
+    fun addToProductList(productPrototype: ProductPrototype){
         val curList = this.products.value?.toMutableList()
-        curList?.add(product)
+        curList?.add(productPrototype)
         this.products.postValue(curList)
-    }
-    fun addToVariantList(variant: Variant){
-        val curList = this.variants.value?.toMutableList()
-        curList?.add(variant)
-        this.variants.postValue(curList)
     }
     fun removeLast(){
         val curList = this.products.value?.toMutableList()
         curList?.removeLast()
         this.products.postValue(curList)
     }
-    fun addProductModelListFromResponse(productResponses: MutableList<ProductResponse>){
-        var tmpList = mutableListOf<Product>()
+    fun addProductModelListFromResponse(productResponses: MutableList<Any>, type: Int){
+        var tmpList = mutableListOf<ProductPrototype>()
         if(this.products.value?.isNotEmpty() == true){
             tmpList = this.products.value!!.toMutableList()
             if(tmpList.last().id == ProductPrototype.ID_LOADING) tmpList.removeLast()
         }
         productResponses.forEach{
-            it.let {
-                tmpList.add(Product(it))
-            }
+            if(type == ProductPrototype.PRODUCT_TYPE) tmpList.add(Product(it as ProductResponse))
+            else tmpList.add(Variant(it as VariantResponse))
         }
         this.products.postValue(tmpList.toMutableList())
-    }
-    fun addVariantModelListFromResponse(variantResponses: MutableList<VariantResponse>){
-        var tmpList = mutableListOf<Variant>()
-        if(this.variants.value?.isNotEmpty() == true){
-            tmpList = this.variants.value?.toMutableList()!!
-            if(tmpList.last().id == ProductPrototype.ID_LOADING) tmpList.removeLast()
-        }
-        for(variant in variantResponses){
-            variant.let {
-                tmpList.add(Variant(it))
-            }
-        }
-        this.variants.postValue(tmpList.toMutableList())
     }
 }

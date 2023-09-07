@@ -85,13 +85,13 @@ open class Variant(): ProductPrototype() {
         return weightValueToString()+weightUnitToString()
     }
     fun getTotalAvailableToString(): String{
-        return FormatNumberUtil.formatNumber(calculateTotalAvailable())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalAvailable())
     }
     fun wholePriceToString(): String{
-        return FormatNumberUtil.formatNumber(variantWholePrice)
+        return FormatNumberUtil.formatNumberCeil(variantWholePrice)
     }
     fun importPriceToString(): String{
-        return FormatNumberUtil.formatNumber(variantImportPrice)
+        return FormatNumberUtil.formatNumberCeil(variantImportPrice)
     }
     fun descriptionToString(): String {
         return if(description == null) EMPTY_STRING
@@ -100,12 +100,12 @@ open class Variant(): ProductPrototype() {
 
     fun inputVatRateToString(): String {
         return if(inputVatRate == null) "$EMPTY_NUMBER $PERCENT"
-        else FormatNumberUtil.formatNumber(inputVatRate!!) + PERCENT
+        else FormatNumberUtil.formatNumberCeil(inputVatRate!!) + PERCENT
     }
 
     fun outputVatRateToString(): String {
         return if(outputVatRate == null) "$EMPTY_NUMBER $PERCENT"
-        else FormatNumberUtil.formatNumber(outputVatRate!!) + PERCENT
+        else FormatNumberUtil.formatNumberCeil(outputVatRate!!) + PERCENT
     }
     fun nameToString(): String{
         return name ?: EMPTY_STRING
@@ -124,10 +124,10 @@ open class Variant(): ProductPrototype() {
     }
 
     fun getTotalOnhandToString(): String{
-        return FormatNumberUtil.formatNumber(calculateTotalOnHand())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalOnHand())
     }
     fun retailPriceToString(): String{
-        return FormatNumberUtil.formatNumber(variantRetailPrice)
+        return FormatNumberUtil.formatNumberCeil(variantRetailPrice)
     }
     fun barcodeToString(): String{
         return barcode ?: EMPTY_STRING
@@ -143,16 +143,16 @@ open class Variant(): ProductPrototype() {
     }
     fun weightValueToString(): String{
         return if(weightValue == null) EMPTY_STRING
-        else FormatNumberUtil.formatNumber(weightValue!!)
+        else FormatNumberUtil.formatNumberCeil(weightValue!!)
     }
     fun weightUnitToString(): String{
         return weightUnit ?: EMPTY_STRING
     }
     fun onHandToString(): String{
-        return FormatNumberUtil.formatNumber(calculateTotalOnHand())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalOnHand())
     }
     fun availableToString(): String{
-        return FormatNumberUtil.formatNumber(calculateTotalAvailable())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalAvailable())
     }
     fun getImagePath(): String? {
         return images.firstOrNull { it.id == imageId }?.fullPath

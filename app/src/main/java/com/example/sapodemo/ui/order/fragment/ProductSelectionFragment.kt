@@ -26,7 +26,7 @@ import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ProductSelectionAdapter
 import kotlinx.coroutines.*
 
-class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSelectionView {
+class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSelectionView {
     private lateinit var binding: FragmentProductSelectionBinding
     private lateinit var productSelectionPresenter: ProductSelectionPresenter
     private lateinit var sharedPref: SharedPreferences
@@ -41,7 +41,7 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
         super.onCreate(savedInstanceState)
         productSelectionPresenter = ProductSelectionPresenter(this, model)
         sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        isMultipleSelection = sharedPref.getBoolean(getString(R.string.is_multiple_selection),false)
+        isMultipleSelection = sharedPref.getBoolean(getString(R.string.is_multiple_selection), false)
     }
 
     override fun onCreateView(
@@ -67,7 +67,9 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
     }
 
     override fun loadMore() {
-        binding.rclvProductSelection.smoothScrollToPosition((binding.rclvProductSelection.adapter?.itemCount ?: 0))
+        binding.rclvProductSelection.smoothScrollToPosition(
+            (binding.rclvProductSelection.adapter?.itemCount ?: 0)
+        )
         isLoadMore = MetadataModel.DISABLE_LOAD_MORE
         CoroutineScope(Dispatchers.Main).launch {
             productSelectionPresenter.loadMoreData(binding.sevProductSelection.query.toString())
@@ -75,30 +77,29 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
     }
 
     override fun updateViewLoadMore(res: API_RESULT, response: String, enableLoadMore: Boolean) {
-        Log.d("API response ProductSelectionFragment",response)
+        Log.d("API response ProductSelectionFragment", response)
         isLoadMore = enableLoadMore
-        if(res == API_RESULT.ERROR) Toast.makeText(activity,response,Toast.LENGTH_SHORT).show()
+        if (res == API_RESULT.ERROR) Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
     }
 
     override fun updateViewInit(res: API_RESULT, response: String, enableLoadMore: Boolean) {
-        Log.d("API response ProductSelectionFragment",response)
+        Log.d("API response ProductSelectionFragment", response)
         isLoadMore = enableLoadMore
-        when(res) {
+        when (res) {
             API_RESULT.EMPTYLIST -> binding.tvProductSelectionEmptyMessage.visibility = View.VISIBLE
             API_RESULT.ERROR -> {
                 binding.tvProductSelectionEmptyMessage.visibility = View.VISIBLE
-                Toast.makeText(activity,response,Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
             }
             API_RESULT.SUCCESS -> binding.tvProductSelectionEmptyMessage.visibility = View.GONE
         }
     }
 
     override fun select(productOrder: ProductOrder, position: Int) {
-        if(isMultipleSelection){
-            productSelectionPresenter.select(productOrder,position)
-        }
-        else{
-            productSelectionPresenter.select(productOrder,position)
+        if (isMultipleSelection) {
+            productSelectionPresenter.select(productOrder, position)
+        } else {
+            productSelectionPresenter.select(productOrder, position)
             submit()
         }
     }
@@ -113,33 +114,34 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
         navController?.popBackStack()
     }
 
-    private fun initView(){
+    private fun initView() {
         setUpEventListener()
         setUpRecycleView()
-        if(model.productOrderList.value.isNullOrEmpty()) init()
+        if (model.productOrderList.value.isNullOrEmpty()) init()
     }
 
-    private fun setUpRecycleView(){
+    private fun setUpRecycleView() {
         productSelectionAdapter.onClick = { product, position
-            -> select(product,position)
+            ->
+            select(product, position)
         }
         model.productOrderList.observe(this) { list ->
             productSelectionAdapter.submitList(list.toList())
         }
         binding.apply {
             rclvProductSelection.apply {
-                layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL,false)
+                layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                 adapter = productSelectionAdapter
                 addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-                addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
                         val count = model.productOrderList.value?.size
                         if (count != null) {
-                            if((layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == count - 1
+                            if ((layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == count - 1
                                 && isLoadMore == MetadataModel.ENABLE_LOAD_MORE
-                            ){
-                                    loadMore()
+                            ) {
+                                loadMore()
                             }
                         }
                     }
@@ -148,9 +150,9 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
         }
     }
 
-    private fun setUpEventListener(){
+    private fun setUpEventListener() {
         binding.apply {
-            sevProductSelection.setOnQueryTextListener(object : CustomOnQueryTextChangeListener{
+            sevProductSelection.setOnQueryTextListener(object : CustomOnQueryTextChangeListener {
                 override fun onQueryTextChange(newText: String?): Boolean {
                     job?.cancel()
                     job = CoroutineScope(Dispatchers.Main).launch {
@@ -161,9 +163,9 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
                 }
             })
             tglBtnProductSelectionMultipleSelection.isChecked = isMultipleSelection
-            tglBtnProductSelectionMultipleSelection.setOnCheckedChangeListener { _, isChecked ->{}
+            tglBtnProductSelectionMultipleSelection.setOnCheckedChangeListener { _, isChecked ->
                 isMultipleSelection = isChecked
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putBoolean(getString(R.string.is_multiple_selection), isChecked)
                     apply()
                 }
@@ -176,8 +178,14 @@ class ProductSelectionFragment: Fragment(), ProductSelectionContract.ProductSele
             }
         }
     }
-    interface CustomOnQueryTextChangeListener: SearchView.OnQueryTextListener{
-        override fun onQueryTextSubmit(query: String?): Boolean { return false }
-        override fun onQueryTextChange(newText: String?): Boolean { return false }
+
+    interface CustomOnQueryTextChangeListener : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return false
+        }
     }
 }

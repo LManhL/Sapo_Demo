@@ -52,6 +52,19 @@ class OrderPresenter(val view: OrderContract.OrderView, val model: OrderViewMode
         model.removeItemOfSelectedHashmap(productOrder)
     }
 
+    override fun handleSubmitQuantity(productOrder: ProductOrder, position: Int, numberInStringType: String) {
+        val productOrderCopy = productOrder.copyOf()
+        val newQuantity = numberInStringType.filter{ it.isDigit() || it == '.' }.toDoubleOrNull() ?: 1.0
+        if(newQuantity == 0.0){
+            view.onClickCancel(productOrder, position)
+        }
+        else{
+            productOrderCopy.quantity = newQuantity
+            model.updateItemOfItemSelectedList(position,productOrderCopy)
+            model.updateItemOfSelectedHashmap(productOrderCopy)
+        }
+    }
+
     override fun handleSelectOrderSource(newOrderSource: OrderSource, newPosition: Int) {
         val oldPosition = model.selectedOrderSource.value!!.first
         val oldOrderSource = model.selectedOrderSource.value!!.second.copy(isSelect = false)
@@ -80,19 +93,19 @@ class OrderPresenter(val view: OrderContract.OrderView, val model: OrderViewMode
         return model.itemSelectedList.value?.let { list -> list.sumOf { it.quantity } } ?: 0.0
     }
     override fun totalQuantityToString(): String {
-        return FormatNumberUtil.formatNumber(calculateTotalQuantity())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalQuantity())
     }
 
     override fun totalPriceToString(): String {
-        return FormatNumberUtil.formatNumber(calculateTotalPrice())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalPrice())
     }
 
     override fun totalTaxToString(): String {
-        return FormatNumberUtil.formatNumber(calculateTotalTax())
+        return FormatNumberUtil.formatNumberCeil(calculateTotalTax())
     }
 
     override fun provisionalToString(): String {
-        return FormatNumberUtil.formatNumber(calculateProvisional())
+        return FormatNumberUtil.formatNumberCeil(calculateProvisional())
     }
 
     override suspend fun createOrder() {

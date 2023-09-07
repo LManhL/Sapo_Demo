@@ -111,14 +111,14 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Chọn lại"
-                android:textColor="#2196F3"
+                android:textColor="@color/blue"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/btnProductSelectionSubmit"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:background="#2196F3"
+                android:background="@color/blue"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Xong"

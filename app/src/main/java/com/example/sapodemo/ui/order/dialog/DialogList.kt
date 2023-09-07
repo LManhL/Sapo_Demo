@@ -21,20 +21,25 @@ class DialogList(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState ?: Bundle())
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_dialog_order_source_list,null)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.layout_dialog_order_source_list, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.rclvDialogOrderSourceList)
         window?.setGravity(Gravity.BOTTOM)
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
         setContentView(view)
         setCanceledOnTouchOutside(true)
         setCancelable(true)
         setUpRecyclerView(recyclerView)
     }
+
     private fun setUpRecyclerView(recyclerView: RecyclerView) {
         recyclerView.apply {
             adapter = orderSourceAdapter
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
     }
 }

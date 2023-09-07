@@ -20,22 +20,25 @@
             android:id="@+id/tvProductListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/ivProductListIllustration"
+            android:layout_toEndOf="@id/ivProductListIllustration"
             android:text="Coca cola"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvProductListVersions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvProductListName"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/ivProductListIllustration"
+            android:layout_toEndOf="@+id/ivProductListIllustration"
             android:text="2 Phiên bản"
             android:textSize="14sp" />
 
@@ -45,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvProductListName"
             android:layout_alignBaseline="@id/tvProductListVersions"
-            android:layout_toRightOf="@+id/tvProductListVersions"
+            android:layout_toEndOf="@+id/tvProductListVersions"
             android:gravity="center"
             android:text="  |  "
             android:textSize="16sp" />
@@ -56,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvProductListName"
             android:layout_alignBaseline="@id/tvProductListVersions"
-            android:layout_toRightOf="@+id/tvProductListVerticalLine"
+            android:layout_toEndOf="@+id/tvProductListVerticalLine"
             android:text="Có thể bán: 20000"
             android:textSize="14sp" />
     </RelativeLayout>

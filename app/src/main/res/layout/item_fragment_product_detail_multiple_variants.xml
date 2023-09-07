@@ -17,7 +17,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/ivProductDetailMultipleVariantsSubArrow"
+        android:layout_toEndOf="@+id/ivProductDetailMultipleVariantsSubArrow"
         android:scaleType="centerInside"
         android:src="@color/purple_500" />
 
@@ -29,7 +29,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@id/ivProductDetailMultipleVariantsIllustration"
+        android:layout_toStartOf="@+id/llProDetailMultipleVariantPriceAvailableOnhandContainer"
+        android:layout_toEndOf="@id/ivProductDetailMultipleVariantsIllustration"
         android:orientation="vertical">
 
         <TextView
@@ -40,17 +41,24 @@
             android:text="Coca cola - đỏ - nhôm"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/tvProductDetailMultipleVariantsSKU"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="175dp"
-            android:text="SKU: 123456789" />
+            android:text="SKU: 123456789"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llProDetailMultipleVariantPriceAvailableOnhandContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

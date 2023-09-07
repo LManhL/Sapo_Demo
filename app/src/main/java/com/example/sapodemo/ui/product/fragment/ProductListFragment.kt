@@ -41,12 +41,9 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
     private lateinit var productListPresenter: ProductListPresenter
     private val model: ProductListViewModel by viewModels()
     private var productListAdapter: ProductListAdapter = ProductListAdapter()
-    private var variantListAdapter: ProductListAdapter = ProductListAdapter()
     private var isLoadMore: Boolean = MetadataModel.ENABLE_LOAD_MORE
     private var isFocusSearch: Boolean = false
     private var currentType = ProductPrototype.PRODUCT_TYPE
-    private var currentScrollPositionProduct = 0
-    private var currentScrollPositionVariant = 0
     private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,14 +146,12 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         binding.apply {
             rclvProductList.apply {
                 layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                adapter = if (currentType == ProductPrototype.PRODUCT_TYPE) productListAdapter else variantListAdapter
+                adapter = productListAdapter
                 addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
-                        val count =
-                            if (currentType == ProductPrototype.PRODUCT_TYPE) model.products.value?.size
-                            else model.variants.value?.size
+                        val count = model.products.value?.size
                         if (count != null) {
                             if ((layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == count - 1
                                 && isLoadMore == MetadataModel.ENABLE_LOAD_MORE
@@ -196,14 +191,16 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         model.products.observe(this) { productList ->
             productListAdapter.submitList(productList as List<ProductPrototype>?)
         }
-        model.variants.observe(this) { variantList ->
-            variantListAdapter.submitList(variantList as List<ProductPrototype>?)
+        productListAdapter.onClick = { it->
+            onClickItemAdapter(it)
         }
-        productListAdapter.onClick = { it ->
-            onClickItemProductList(it as Product)
+    }
+    private fun onClickItemAdapter(productPrototype: ProductPrototype){
+        if(currentType == ProductPrototype.PRODUCT_TYPE){
+            onClickItemProductList(productPrototype as Product)
         }
-        variantListAdapter.onClick = { it ->
-            onClickItemVariantList(it as Variant)
+        else{
+            onClickItemVariantList(productPrototype as Variant)
         }
     }
     private fun onClickItemVariantList(variant: Variant) {
@@ -230,12 +227,12 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
 
     private fun setUpViewModel() {
         if (currentType == ProductPrototype.PRODUCT_TYPE) {
-            model.totalProductList.observe(this) { total ->
+            model.total.observe(this) { total ->
                 val totalCountText = "$total ${getString(R.string.product)}"
                 binding.tvProductListTotalCount.text = totalCountText
             }
         } else {
-            model.totalVariantList.observe(this) { total ->
+            model.total.observe(this) { total ->
                 val totalCountText = "$total ${getString(R.string.variant)}"
                 binding.tvProductListTotalCount.text = totalCountText
             }
@@ -244,29 +241,14 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
 
 
     private fun handleClickMenu() {
-        val layoutManager = binding.rclvProductList.layoutManager as LinearLayoutManager
-        if (currentType == ProductPrototype.PRODUCT_TYPE) {
-            currentScrollPositionProduct = layoutManager.findFirstVisibleItemPosition()
-            currentType = ProductPrototype.VARIANT_TYPE
-            binding.rclvProductList.adapter = variantListAdapter
-            if (model.variants.value.isNullOrEmpty()) init()
-            binding.rclvProductList.layoutManager?.scrollToPosition(currentScrollPositionVariant)
-        } else {
-            currentScrollPositionVariant = layoutManager.findFirstVisibleItemPosition()
-            currentType = ProductPrototype.PRODUCT_TYPE
-            binding.rclvProductList.adapter = productListAdapter
-            if (model.products.value.isNullOrEmpty()) init()
-            binding.rclvProductList.layoutManager?.scrollToPosition(currentScrollPositionProduct)
-        }
+        currentType = if (currentType == ProductPrototype.PRODUCT_TYPE) ProductPrototype.VARIANT_TYPE
+                      else ProductPrototype.PRODUCT_TYPE
+        init()
         isLoadMore = MetadataModel.ENABLE_LOAD_MORE
         setUpViewModel()
     }
     private fun initData() {
-        if ((currentType == ProductPrototype.PRODUCT_TYPE && model.products.value.isNullOrEmpty())
-            || (currentType == ProductPrototype.VARIANT_TYPE && model.variants.value.isNullOrEmpty())
-        ) {
-            init()
-        }
+        if (model.products.value.isNullOrEmpty()) init()
     }
 
     interface CustomTextWatcher : TextWatcher {

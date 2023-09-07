@@ -69,14 +69,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đơn hàng của bạn chưa có sản phẩm nào!"
+                    android:text="@string/empty_order"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chọn sản phẩm"
-                    android:textColor="#2196F3"
+                    android:text="@string/choose_product"
+                    android:textColor="@color/blue"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -114,9 +114,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="@string/apply_promo"
-                            android:textColor="#2196F3"
+                            android:textColor="@color/blue"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -133,7 +133,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
                                 android:text="@string/total_quantity"
                                 android:textColor="@color/black" />
 
@@ -141,7 +141,7 @@
                                 android:id="@+id/tvOrderTotalQuantity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
@@ -160,7 +160,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
                                 android:text="@string/total_price"
                                 android:textColor="@color/black" />
 
@@ -168,7 +168,7 @@
                                 android:id="@+id/tvOrderTotalPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
@@ -187,7 +187,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
                                 android:text="@string/tax"
                                 android:textColor="@color/black" />
 
@@ -195,7 +195,7 @@
                                 android:id="@+id/tvOrderTax"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
@@ -214,15 +214,15 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
                                 android:text="@string/discount"
-                                android:textColor="#2196F3" />
+                                android:textColor="@color/blue" />
 
                             <TextView
                                 android:id="@+id/tvOrderDiscount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
@@ -241,15 +241,15 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
                                 android:text="@string/deliver_charge"
-                                android:textColor="#2196F3" />
+                                android:textColor="@color/blue" />
 
                             <TextView
                                 android:id="@+id/tvOrderDeliveryPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
@@ -285,7 +285,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true">
+                            android:layout_alignParentStart="true">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -296,17 +296,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:text="@string/add_customer"
-                                android:textColor="#2196F3" />
+                                android:textColor="@color/blue" />
                         </LinearLayout>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
 
@@ -319,7 +318,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true">
+                            android:layout_alignParentStart="true">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -330,17 +329,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:text="@string/retail_price"
-                                android:textColor="#2196F3" />
+                                android:textColor="@color/blue" />
                         </LinearLayout>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -367,7 +365,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true">
+                            android:layout_alignParentStart="true">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -378,9 +376,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:text="@string/select_payment_method"
                                 android:textColor="@color/black" />
                         </LinearLayout>
@@ -388,7 +385,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:src="@drawable/ic_arrow_right" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -415,18 +412,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:text="@string/add_note"
-                            android:textColor="#2196F3"
+                            android:textColor="@color/blue"
                             android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_note" />
                     </RelativeLayout>
@@ -461,7 +458,7 @@
                 android:id="@+id/tvOrderProvisional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="0"
                 android:textColor="@color/black"
@@ -481,7 +478,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="#03A9F4"
+                android:background="@color/blue"
                 android:text="@string/create_and_delivery"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

@@ -1,9 +1,13 @@
 package com.example.sapodemo.ui.order.fragment
 
 import YesNoDialog
+import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -15,20 +19,21 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
+import com.example.sapodemo.contract.order.OrderContract
 import com.example.sapodemo.databinding.FragmentOrderBinding
+import com.example.sapodemo.model.OrderSource
 import com.example.sapodemo.model.ProductOrder
 import com.example.sapodemo.presenter.order.orderpresenter.OrderPresenter
-import com.example.sapodemo.contract.order.OrderContract
-import com.example.sapodemo.model.OrderSource
 import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ItemSelectedAdapter
 import com.example.sapodemo.ui.order.dialog.DialogList
+import com.example.sapodemo.ui.order.dialog.MyCustomKeyBoardDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
+class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     private lateinit var binding: FragmentOrderBinding
     private lateinit var presenter: OrderPresenter
     private lateinit var listDialog: DialogList
@@ -51,6 +56,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
         initView()
         return binding.root
     }
+
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.top_app_bar_menu_order, menu)
     }
@@ -110,7 +116,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
 
     private fun initView() {
         setUpRecycleView()
-        setUpEventListenter()
+        setUpEventListener()
         setUpDialogList()
 
         model.itemSelectedList.observe(this) {
@@ -124,7 +130,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
         } else binding.llOrderAddProduct.visibility = View.GONE
     }
 
-    private fun setUpDialogList(){
+    private fun setUpDialogList() {
         listDialog = DialogList(activity!!)
         listDialog.orderSourceAdapter.onClick =
             { orderSource, i -> onSelectOrderSource(orderSource, i) }
@@ -132,7 +138,8 @@ class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
             listDialog.orderSourceAdapter.submitList(it.toList())
         }
     }
-    private fun setUpEventListenter() {
+
+    private fun setUpEventListener() {
         binding.apply {
             llOrderAddProduct.setOnClickListener {
                 val navController = view?.findNavController()
@@ -148,10 +155,45 @@ class OrderFragment : Fragment(), OrderContract.OrderView,MenuProvider {
         }
     }
 
+    private fun showDialog(productOrder: ProductOrder, position: Int) {
+        val dialog = Dialog(activity!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setContentView(R.layout.layout_custom_key_board_dialog)
+
+        val editText: EditText = dialog.findViewById(R.id.edtCustomKeyboardDialog)
+        val keyboard: MyCustomKeyBoardDialog = dialog.findViewById(R.id.keyboardCustomerKeyboardDialog)
+        val deleteAllButton: ImageView = dialog.findViewById(R.id.ivCustomKeyboardDialogDeleteAll)
+        val ic = editText.onCreateInputConnection(EditorInfo())
+
+        editText.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        editText.setTextIsSelectable(true)
+        keyboard.inputConnection = ic
+        keyboard.initContent(productOrder.quantity)
+
+        keyboard.onClickDelete = {
+            dialog.dismiss()
+        }
+        keyboard.onClickEnter = {
+            presenter.handleSubmitQuantity(productOrder, position, editText.text.toString())
+            dialog.dismiss()
+        }
+        deleteAllButton.setOnClickListener{
+            keyboard.onClickDeleteAll()
+        }
+        dialog.show()
+    }
+
+    private fun onClickChangeQuantity(productOrder: ProductOrder, position: Int) {
+        showDialog(productOrder, position)
+    }
+
     private fun setUpRecycleView() {
         itemSelectedAdapter.onClickAdd = { productOrder, i -> onClickAdd(productOrder, i) }
         itemSelectedAdapter.onClickMinus = { productOrder, i -> onClickMinus(productOrder, i) }
         itemSelectedAdapter.onClickCancel = { productOrder, i -> onClickCancel(productOrder, i) }
+        itemSelectedAdapter.onClickChangeQuantity = { productOrder, i -> onClickChangeQuantity(productOrder, i) }
 
         model.itemSelectedList.observe(this) {
             itemSelectedAdapter.submitList(it.toList())
