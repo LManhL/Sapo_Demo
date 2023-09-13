@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -18,12 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.api.config.API_RESULT
 import com.example.sapodemo.databinding.FragmentProductSelectionBinding
-import com.example.sapodemo.model.MetadataModel
-import com.example.sapodemo.model.ProductOrder
+import com.example.sapodemo.presenter.model.MetadataModel
+import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.presenter.order.orderpresenter.ProductSelectionPresenter
 import com.example.sapodemo.contract.order.ProductSelectionContract
 import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ProductSelectionAdapter
+import com.example.sapodemo.ui.order.custom.CustomOnQueryTextChangeListener
 import kotlinx.coroutines.*
 
 class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSelectionView {
@@ -176,16 +176,6 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
             btnProductSelectionReselect.setOnClickListener {
                 reselect()
             }
-        }
-    }
-
-    interface CustomOnQueryTextChangeListener : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return false
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            return false
         }
     }
 }

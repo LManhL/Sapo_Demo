@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
-import com.example.sapodemo.model.ProductOrder
+import com.example.sapodemo.presenter.model.ProductOrder
 
 class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
     ProductDifferCallback
@@ -73,7 +73,7 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
             else warning.visibility = View.GONE
         }
         private fun bindPrice(): String{
-            return currentProductOrder.getTotalAvailableToString()
+            return currentProductOrder.retailPriceToString()
         }
         private fun bindQuantity(): String{
             return currentProductOrder.quantityToString()
@@ -86,7 +86,7 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
         }
 
         override fun areContentsTheSame(oldItem: ProductOrder, newItem: ProductOrder): Boolean {
-            return oldItem.quantity == newItem.quantity
+            return oldItem.id == newItem.id && oldItem.quantity == newItem.quantity
         }
     }
 

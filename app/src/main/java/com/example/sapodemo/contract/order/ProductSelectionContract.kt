@@ -1,13 +1,12 @@
 package com.example.sapodemo.contract.order
 
 import com.example.sapodemo.api.config.API_RESULT
-import com.example.sapodemo.model.ProductOrder
+import com.example.sapodemo.presenter.model.ProductOrder
 
 class ProductSelectionContract {
     interface ProductSelectionPresenter {
         suspend fun init(query: String)
         suspend fun loadMoreData(query: String)
-        fun addLoadingItem()
         fun select(productOrder: ProductOrder, position: Int)
         fun submit()
         fun reselect()

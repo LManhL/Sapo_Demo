@@ -18,8 +18,8 @@ import com.example.sapodemo.R
 import com.example.sapodemo.ui.product.adapter.ImageListAdapter
 import com.example.sapodemo.contract.product.ProductDetailContract
 import com.example.sapodemo.databinding.FragmentProductDetailBinding
-import com.example.sapodemo.model.Image
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.Image
+import com.example.sapodemo.presenter.model.Variant
 import com.example.sapodemo.presenter.product.productpresenter.ProductDetailPresenter
 import com.example.sapodemo.presenter.product.viewmodel.ProductDetailViewModel
 import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
@@ -56,8 +56,6 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProductDetailBinding.inflate(inflater, container, false)
-        setUpImageAdapter()
-        setupClickListeners()
         initView()
         return binding.root
     }
@@ -81,23 +79,28 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
     }
 
     override fun setUpView() {
+        setUpImageAdapter()
+        setupClickListeners()
+        binding.apply {
+            llProductDetailSKUBarcodeWeightUnitContainer.visibility = if(isMultipleVariant == true) View.GONE else View.VISIBLE
+            crdProductDetailInventoryContainer.visibility = if(isMultipleVariant == true ) View.GONE else View.VISIBLE
+            crdProductDetailPriceContainer.visibility = if(isMultipleVariant == true) View.GONE else View.VISIBLE
+            crdProductDetailVariantListContainer.visibility = if(isMultipleVariant == true) View.VISIBLE else View.GONE
+        }
         if(isMultipleVariant == true){
-            binding.apply {
-                llProductDetailSKUBarcodeWeightUnitContainer.visibility = View.GONE
-                crdProductDetailInventoryContainer.visibility = View.GONE
-                crdProductDetailPriceContainer.visibility = View.GONE
-                crdProductDetailVariantListContainer.visibility = View.VISIBLE
-            }
             setUpViewMultipleVariant()
         }
         else{
-            binding.apply {
-                llProductDetailSKUBarcodeWeightUnitContainer.visibility = View.VISIBLE
-                crdProductDetailInventoryContainer.visibility = View.VISIBLE
-                crdProductDetailPriceContainer.visibility = View.VISIBLE
-                crdProductDetailVariantListContainer.visibility = View.GONE
-            }
             setUpViewSingleVariant()
+        }
+    }
+    private fun initView(){
+        binding.scrvProductDetailContainer.visibility = View.GONE
+        if(id != null){
+            init(id!!)
+        }
+        else{
+            Toast.makeText(activity,"Problem passing parameter",Toast.LENGTH_SHORT).show()
         }
     }
     private fun setUpViewSingleVariant(){
@@ -114,6 +117,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
                 edtProductDetailRetailPrice.setText(variant.retailPriceToString())
                 edtProductDetailWholePrice.setText(variant.wholePriceToString())
                 edtProductDetailImportPrice.setText(variant.importPriceToString())
+                edtProductDetailDescription.setText(variant.descriptionToString())
 
                 tvProductDetailOnHand.text = onHand
                 tvProductDetailAvailable.text = available
@@ -124,6 +128,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
                 tvProductDetailSKU.text = variant.skuToString()
                 tvProductDetailBarcode.text = variant.barcodeToString()
                 tvProductDetailUnit.text = variant.unitToString()
+
             }
         }
     }
@@ -140,7 +145,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
             val active = if(product.isActive()) getString(R.string.active) else getString(R.string.inactive)
             binding.apply {
                 tvProductDetailName.text = product.nameToString()
-                variantListAdapter.submitList(product.variants)
+                variantListAdapter.submitList(product.variants.toList())
                 tvProductDetailStatus.text = active
             }
         }
@@ -173,15 +178,6 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
                 product?.images?.let { imageList.addAll(it) }
                 imageListAdapter.notifyDataSetChanged()
             }
-        }
-    }
-    private fun initView(){
-        binding.scrvProductDetailContainer.visibility = View.GONE
-        if(id != null){
-            init(id!!)
-        }
-        else{
-            Toast.makeText(activity,"Problem passing parameter",Toast.LENGTH_SHORT).show()
         }
     }
 }

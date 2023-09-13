@@ -3,13 +3,13 @@ package com.example.sapodemo.presenter.product.viewmodel
 import androidx.lifecycle.*
 import com.example.sapodemo.api.model.product.ProductResponse
 import com.example.sapodemo.api.model.product.VariantResponse
-import com.example.sapodemo.model.Product
-import com.example.sapodemo.model.ProductPrototype
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.Product
+import com.example.sapodemo.presenter.model.ProductPrototype
+import com.example.sapodemo.presenter.model.Variant
 
 
 class ProductListViewModel: ViewModel() {
-    val products = MutableLiveData<MutableList<ProductPrototype>>()
+    val products = MutableLiveData<List<ProductPrototype>>()
     val total = MutableLiveData<Int>()
 
     init {

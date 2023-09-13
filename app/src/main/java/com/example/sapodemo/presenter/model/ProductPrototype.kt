@@ -1,4 +1,4 @@
-package com.example.sapodemo.model
+package com.example.sapodemo.presenter.model
 
 
 open class ProductPrototype (

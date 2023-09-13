@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sapodemo.R
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.Variant
 
 class ProductDetailVariantListAdapter: ListAdapter<Variant, RecyclerView.ViewHolder>(
     VariantDifferCallback

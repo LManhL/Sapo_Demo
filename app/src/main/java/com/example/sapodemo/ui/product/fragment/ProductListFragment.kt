@@ -2,7 +2,6 @@ package com.example.sapodemo.ui.product.fragment
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -22,11 +21,12 @@ import com.example.sapodemo.ui.product.adapter.ProductListAdapter
 import com.example.sapodemo.api.config.API_RESULT
 import com.example.sapodemo.contract.product.ProductListContract
 import com.example.sapodemo.databinding.FragmentProductListBinding
-import com.example.sapodemo.model.MetadataModel
-import com.example.sapodemo.model.Product
-import com.example.sapodemo.model.ProductPrototype
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.MetadataModel
+import com.example.sapodemo.presenter.model.Product
+import com.example.sapodemo.presenter.model.ProductPrototype
+import com.example.sapodemo.presenter.model.Variant
 import com.example.sapodemo.presenter.product.productpresenter.ProductListPresenter
+import com.example.sapodemo.ui.product.custom.CustomTextWatcher
 import kotlinx.coroutines.*
 
 class ProductListFragment : Fragment(), ProductListContract.ProductListView, MenuProvider {
@@ -60,10 +60,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         val view = binding.root
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        setUpAdapter()
-        setUpViewModel()
         initView()
-        initData()
         return view;
     }
 
@@ -73,9 +70,6 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
-            R.id.item_menu_display_custom -> {
-                true
-            }
             R.id.item_menu_change_type -> {
                 handleClickMenu()
                 true
@@ -121,28 +115,30 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
             )
         }
     }
-
-    override fun swipeRefresh() {
-        CoroutineScope(Dispatchers.Main).launch {
-            productListPresenter.swipeRefresh()
-        }
-    }
-
     override fun updateViewLoadMore(res: API_RESULT, response: String, enableLoadMore: Boolean) {
         Log.d("API response ProductListFragment", response)
         isLoadMore = enableLoadMore
         if (res == API_RESULT.ERROR) Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
     }
-
+    override fun swipeRefresh() {
+        CoroutineScope(Dispatchers.Main).launch {
+            productListPresenter.swipeRefresh()
+        }
+    }
     override fun updateViewSwipeRefresh() {
         binding.swprfsProductList.isRefreshing = false
     }
     private fun initView() {
+        setUpViewModel()
         setUpRecycleView()
         setUpEventListener()
+        if (model.products.value.isNullOrEmpty()) init()
     }
 
     private fun setUpRecycleView() {
+        productListAdapter.onClick = { it->
+            onClickItemAdapter(it)
+        }
         binding.apply {
             rclvProductList.apply {
                 layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -187,14 +183,6 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         }
     }
 
-    private fun setUpAdapter() {
-        model.products.observe(this) { productList ->
-            productListAdapter.submitList(productList as List<ProductPrototype>?)
-        }
-        productListAdapter.onClick = { it->
-            onClickItemAdapter(it)
-        }
-    }
     private fun onClickItemAdapter(productPrototype: ProductPrototype){
         if(currentType == ProductPrototype.PRODUCT_TYPE){
             onClickItemProductList(productPrototype as Product)
@@ -226,6 +214,9 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
     }
 
     private fun setUpViewModel() {
+        model.products.observe(this) { productList ->
+            productListAdapter.submitList(productList.toList())
+        }
         if (currentType == ProductPrototype.PRODUCT_TYPE) {
             model.total.observe(this) { total ->
                 val totalCountText = "$total ${getString(R.string.product)}"
@@ -243,17 +234,8 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
     private fun handleClickMenu() {
         currentType = if (currentType == ProductPrototype.PRODUCT_TYPE) ProductPrototype.VARIANT_TYPE
                       else ProductPrototype.PRODUCT_TYPE
-        init()
         isLoadMore = MetadataModel.ENABLE_LOAD_MORE
+        init()
         setUpViewModel()
-    }
-    private fun initData() {
-        if (model.products.value.isNullOrEmpty()) init()
-    }
-
-    interface CustomTextWatcher : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(s: Editable?) {}
     }
 }

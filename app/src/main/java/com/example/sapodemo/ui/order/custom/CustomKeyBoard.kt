@@ -1,8 +1,9 @@
-package com.example.sapodemo.ui.order.dialog
+package com.example.sapodemo.ui.order.custom
 
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,10 @@ import android.view.inputmethod.InputConnection
 import android.widget.Button
 import android.widget.LinearLayout
 import com.example.sapodemo.R
-import com.example.sapodemo.model.ProductOrder
-import com.example.sapodemo.model.formatter.FormatNumberUtil
+import com.example.sapodemo.presenter.model.ProductOrder
+import com.example.sapodemo.util.FormatNumberUtil
 
-class MyCustomKeyBoardDialog @JvmOverloads constructor(
+class CustomKeyBoard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -36,39 +37,9 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
     private var keyValues = SparseArray<String>()
     var inputConnection: InputConnection? = null
     var onClickEnter: (() -> Unit)? = null
-    var onClickDelete: (() -> Unit)? = null
+    var onClickCancel: (() -> Unit)? = null
 
     init {
-        init(context, attrs)
-    }
-
-    override fun onClick(v: View) {
-        if (inputConnection == null) return
-        when (v.id) {
-            R.id.btnCustomKeyBoardDelete -> {
-                handleClickDelete()
-            }
-            R.id.btnCustomKeyBoardDot -> {
-                handleClickDot(v)
-            }
-            else -> {
-                handleClickDigit(v)
-            }
-        }
-        setValue(v)
-    }
-
-    fun initContent(quantity: Double) {
-        inputConnection?.commitText(FormatNumberUtil.formatNumberFloor(quantity), 1)
-    }
-
-    fun onClickDeleteAll(){
-        val currentText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
-        inputConnection!!.deleteSurroundingText(currentText.length, currentText.length)
-        inputConnection!!.commitText("0", 1)
-    }
-
-    private fun init(context: Context, attrs: AttributeSet?) {
         LayoutInflater.from(context).inflate(R.layout.layout_custom_key_board, this, true)
         mButton1 = findViewById<View>(R.id.btnCustomKeyBoardNumber1) as Button
         mButton2 = findViewById<View>(R.id.btnCustomKeyBoardNumber2) as Button
@@ -99,7 +70,7 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
         mButtonDelete!!.setOnClickListener(this)
 
         mButtonCancel!!.setOnClickListener {
-            onClickDelete?.invoke()
+            onClickCancel?.invoke()
         }
         mButtonEnter!!.setOnClickListener {
             onClickEnter?.invoke()
@@ -118,6 +89,33 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
         keyValues.put(R.id.btnCustomKeyBoardDot, ".")
     }
 
+    override fun onClick(v: View) {
+        if (inputConnection == null) return
+        when (v.id) {
+            R.id.btnCustomKeyBoardDelete -> {
+                handleClickDelete()
+            }
+            R.id.btnCustomKeyBoardDot -> {
+                handleClickDot(v)
+            }
+            else -> {
+                handleClickDigit(v)
+            }
+        }
+        setValue(v)
+    }
+
+    fun initContent(initValue: String) {
+        inputConnection?.commitText(initValue, 1)
+        Log.d("???","???????????????")
+    }
+
+    fun onClickDeleteAll(){
+        val currentText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
+        inputConnection!!.deleteSurroundingText(currentText.length, currentText.length)
+        inputConnection!!.commitText("0", 1)
+    }
+
     private fun handleClickDelete() {
         val selectedText = inputConnection!!.getSelectedText(0)
         if (TextUtils.isEmpty(selectedText)) {
@@ -127,7 +125,6 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
         }
     }
 
-
     private fun handleClickDot(v: View) {
         val value = keyValues[v.id]
         val prevText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
@@ -136,9 +133,10 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
 
     private fun handleClickDigit(v: View) {
         val value = keyValues[v.id]
+        Log.d("aaaaaaaaaaaaaa",value.toString())
         val prevText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
 
-        if (prevText.startsWith("0") && prevText != "0.") {
+        if (prevText.startsWith("0") && !prevText.contains('.')) {
             inputConnection!!.deleteSurroundingText(1, 0)
         }
         inputConnection!!.commitText(value, 1)
@@ -157,8 +155,7 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
             if (!currentText.contains('.')) {
                 inputConnection!!.commitText(FormatNumberUtil.formatNumberFloor(currentNumber), 1)
             } else {
-                val currentNumberToString: String =
-                    FormatNumberUtil.formatNumberFloor(currentNumber)
+                val currentNumberToString: String = FormatNumberUtil.formatNumberFloor(currentNumber)
                 val parts = currentNumberToString.split(".")
                 val integerPart = parts[0]
                 var decimalPart = currentText.split('.')[1]
@@ -167,7 +164,6 @@ class MyCustomKeyBoardDialog @JvmOverloads constructor(
                 inputConnection!!.commitText(res, 1)
             }
         }
-        val tmp = inputConnection!!.getTextBeforeCursor(1, 0).toString()
-        if (tmp.isEmpty()) inputConnection!!.commitText("0", 1)
+        if (currentText.isEmpty()) inputConnection!!.commitText("0", 1)
     }
 }

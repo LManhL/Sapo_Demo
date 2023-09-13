@@ -1,4 +1,4 @@
-package com.example.sapodemo.model
+package com.example.sapodemo.presenter.model
 
 import com.example.sapodemo.api.model.product.OptionResponse
 

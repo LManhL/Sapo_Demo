@@ -1,7 +1,7 @@
-package com.example.sapodemo.model
+package com.example.sapodemo.presenter.model
 
 import com.example.sapodemo.api.model.product.VariantResponse
-import com.example.sapodemo.model.formatter.FormatNumberUtil
+import com.example.sapodemo.util.FormatNumberUtil
 
 class ProductOrder() : Variant() {
 
@@ -29,7 +29,7 @@ class ProductOrder() : Variant() {
     fun quantityToString(): String{
         return FormatNumberUtil.formatNumberCeil(quantity)
     }
-    fun copyOf(): ProductOrder{
+    fun copyOf(): ProductOrder {
         val productOrderCopy = ProductOrder()
         productOrderCopy.quantity = quantity
         productOrderCopy.id = id

@@ -1,9 +1,9 @@
-package com.example.sapodemo.model
+package com.example.sapodemo.presenter.model
 
 import com.example.sapodemo.api.model.product.ImageVariantResponse
 import com.example.sapodemo.api.model.product.InventoryResponse
 import com.example.sapodemo.api.model.product.VariantResponse
-import com.example.sapodemo.model.formatter.FormatNumberUtil
+import com.example.sapodemo.util.FormatNumberUtil
 
 
 open class Variant(): ProductPrototype() {

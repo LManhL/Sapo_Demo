@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:editable="false"
+                android:inputType="none"
                 android:focusable="false"
                 android:hint="@string/search_product_and_add_to_order"
                 android:padding="5dp"

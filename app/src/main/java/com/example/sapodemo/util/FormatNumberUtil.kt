@@ -1,4 +1,4 @@
-package com.example.sapodemo.model.formatter
+package com.example.sapodemo.util
 
 import java.math.RoundingMode
 import java.text.DecimalFormat

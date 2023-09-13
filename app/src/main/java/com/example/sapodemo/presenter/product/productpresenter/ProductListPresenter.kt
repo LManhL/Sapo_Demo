@@ -7,10 +7,10 @@ import com.example.sapodemo.api.model.product.*
 import com.example.sapodemo.api.repos.ProductRepos
 import com.example.sapodemo.contract.product.ProductListContract
 import com.example.sapodemo.api.repos.VariantRepos
-import com.example.sapodemo.model.MetadataModel
-import com.example.sapodemo.model.Product
-import com.example.sapodemo.model.ProductPrototype
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.MetadataModel
+import com.example.sapodemo.presenter.model.Product
+import com.example.sapodemo.presenter.model.ProductPrototype
+import com.example.sapodemo.presenter.model.Variant
 import retrofit2.Response
 
 class ProductListPresenter(productListView: ProductListContract.ProductListView, _model: ProductListViewModel): ProductListContract.ProductListPresenter {
@@ -106,12 +106,12 @@ class ProductListPresenter(productListView: ProductListContract.ProductListView,
             view.updateViewLoadMore(API_RESULT.ERROR, res.message(), MetadataModel.DISABLE_LOAD_MORE)
         }
     }
-    override fun addLoadingItem(type: Int) {
-        if(type == ProductPrototype.PRODUCT_TYPE) model.addToProductList(Product.getLoadingProduct())
-        else model.addToProductList(Variant.getVariantLoading())
-    }
     override suspend fun swipeRefresh() {
         view.init()
         view.updateViewSwipeRefresh()
+    }
+    private fun addLoadingItem(type: Int) {
+        if(type == ProductPrototype.PRODUCT_TYPE) model.addToProductList(Product.getLoadingProduct())
+        else model.addToProductList(Variant.getVariantLoading())
     }
 }

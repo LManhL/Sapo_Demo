@@ -1,7 +1,7 @@
 package com.example.sapodemo.api.model.order
 
 
-import com.example.sapodemo.model.OrderLineItem
+import com.example.sapodemo.presenter.model.OrderLineItem
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

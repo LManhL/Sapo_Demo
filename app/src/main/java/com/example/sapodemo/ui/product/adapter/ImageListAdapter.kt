@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sapodemo.R
-import com.example.sapodemo.model.Image
+import com.example.sapodemo.presenter.model.Image
 
 class ImageListAdapter(_imageList: List<Image>): RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
     var images = _imageList

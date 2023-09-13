@@ -7,7 +7,6 @@ class ProductListContract {
         suspend fun init(query: String,type: Int)
         suspend fun loadMoreData(query: String,type: Int)
         suspend fun swipeRefresh()
-        fun addLoadingItem(type: Int)
     }
     interface ProductListView {
         fun init()

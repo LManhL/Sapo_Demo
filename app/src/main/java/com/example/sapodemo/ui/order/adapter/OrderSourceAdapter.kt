@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
-import com.example.sapodemo.model.OrderSource
+import com.example.sapodemo.presenter.model.OrderSource
 
 class OrderSourceAdapter: ListAdapter<OrderSource,RecyclerView.ViewHolder>(OrderSourceDiffCallBack) {
 
     var onClick : ((OrderSource, Int) -> Unit)? = null
-    var selectedPosition: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)

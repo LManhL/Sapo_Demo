@@ -1,7 +1,7 @@
 import android.app.AlertDialog
 import android.content.Context
 
-class YesNoDialog(private val context: Context) {
+class OptionDialog(private val context: Context) {
 
     interface YesNoListener {
         fun onYesClicked()

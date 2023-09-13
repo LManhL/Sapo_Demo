@@ -3,8 +3,8 @@ package com.example.sapodemo.ui.order.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,33 +13,28 @@ import com.example.sapodemo.R
 import com.example.sapodemo.ui.order.adapter.OrderSourceAdapter
 
 
-class DialogList(
+class ListDialog(
     context: Context,
 ) : Dialog(context) {
 
     var orderSourceAdapter: OrderSourceAdapter = OrderSourceAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState ?: Bundle())
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.layout_dialog_order_source_list, null)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rclvDialogOrderSourceList)
-        window?.setGravity(Gravity.BOTTOM)
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        );
-        setContentView(view)
-        setCanceledOnTouchOutside(true)
-        setCancelable(true)
-        setUpRecyclerView(recyclerView)
-    }
+        this.setContentView(R.layout.layout_dialog_order_source_list)
+        this.setCanceledOnTouchOutside(true)
+        this.setCancelable(true)
 
-    private fun setUpRecyclerView(recyclerView: RecyclerView) {
+        val recyclerView = this.findViewById<RecyclerView>(R.id.rclvDialogOrderSourceList)
         recyclerView.apply {
             adapter = orderSourceAdapter
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            addItemDecoration(DividerItemDecoration(ContextThemeWrapper(this.context, R.style.Theme_SapoDemo), RecyclerView.VERTICAL))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
+
+        val height = context.resources.displayMetrics.heightPixels
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, height/2)
+        window?.setGravity(Gravity.BOTTOM)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
+
 }

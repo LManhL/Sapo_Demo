@@ -8,9 +8,9 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/frgCtnvMainNavHost"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_above="@id/botnavMain"
         android:layout_alignParentStart="true"
         app:defaultNavHost="true"

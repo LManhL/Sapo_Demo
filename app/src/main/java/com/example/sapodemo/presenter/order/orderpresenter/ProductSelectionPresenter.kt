@@ -4,8 +4,8 @@ import com.example.sapodemo.api.config.API_RESULT
 import com.example.sapodemo.api.config.ApiQuery
 import com.example.sapodemo.api.model.product.VariantResponse
 import com.example.sapodemo.api.repos.VariantRepos
-import com.example.sapodemo.model.MetadataModel
-import com.example.sapodemo.model.ProductOrder
+import com.example.sapodemo.presenter.model.MetadataModel
+import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.contract.order.ProductSelectionContract
 import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
 
@@ -69,10 +69,6 @@ class ProductSelectionPresenter(private val view: ProductSelectionContract.Produ
         }
     }
 
-    override fun addLoadingItem() {
-        model.addItemToProductOrderList(ProductOrder.getItemLoading())
-    }
-
     override fun select(productOrder: ProductOrder, position: Int) {
         val productOrderCopy = productOrder.copyOf()
         productOrderCopy.quantity += 1
@@ -99,4 +95,8 @@ class ProductSelectionPresenter(private val view: ProductSelectionContract.Produ
         }
         model.productOrderList.postValue(tmpList)
     }
+    private fun addLoadingItem() {
+        model.addItemToProductOrderList(ProductOrder.getItemLoading())
+    }
+
 }

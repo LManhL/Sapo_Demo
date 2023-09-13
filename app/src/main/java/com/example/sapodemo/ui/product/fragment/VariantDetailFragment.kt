@@ -18,7 +18,7 @@ import com.example.sapodemo.R
 import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
 import com.example.sapodemo.contract.product.VariantDetailContract
 import com.example.sapodemo.databinding.FragmentVariantDetailBinding
-import com.example.sapodemo.model.Variant
+import com.example.sapodemo.presenter.model.Variant
 import com.example.sapodemo.presenter.product.productpresenter.VariantDetailPresenter
 import com.example.sapodemo.presenter.product.viewmodel.VariantDetailViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -67,7 +67,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
     }
 
     override fun onSuccess(response: String) {
-        setUpView()
+        updateViewInit()
         binding.scrvVariantDetailContainer.visibility = View.VISIBLE
     }
 
@@ -77,7 +77,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
         binding.scrvVariantDetailContainer.visibility = View.GONE
     }
 
-    override fun setUpView() {
+    override fun updateViewInit() {
         setUpRecycleView()
         model.let { viewModel ->
             viewModel.variant.observe(this) { variant ->

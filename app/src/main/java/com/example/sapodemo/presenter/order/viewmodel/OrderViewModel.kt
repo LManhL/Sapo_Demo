@@ -4,17 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sapodemo.api.model.order.OrderSourceResponse
 import com.example.sapodemo.api.model.product.VariantResponse
-import com.example.sapodemo.model.OrderSource
-import com.example.sapodemo.model.ProductOrder
-import com.example.sapodemo.model.ProductPrototype
+import com.example.sapodemo.presenter.model.OrderSource
+import com.example.sapodemo.presenter.model.ProductOrder
+import com.example.sapodemo.presenter.model.ProductPrototype
 
 class OrderViewModel: ViewModel() {
     
-    val itemSelectedHashMap = MutableLiveData<HashMap<Int,ProductOrder>>()
+    val itemSelectedHashMap = MutableLiveData<HashMap<Int, ProductOrder>>()
     val itemSelectedList = MutableLiveData<MutableList<ProductOrder>>()
     val productOrderList = MutableLiveData<MutableList<ProductOrder>>()
     val orderSourceList = MutableLiveData<MutableList<OrderSource>>()
-    val selectedOrderSource = MutableLiveData<Pair<Int,OrderSource>>()
+    val selectedOrderSource = MutableLiveData<Pair<Int, OrderSource>>()
 
     fun convertOrderSourceResponseListAndAddToOrderSourceList(orderSourceResponseList: MutableList<OrderSourceResponse>){
        val tmpList = mutableListOf<OrderSource>()
@@ -26,7 +26,7 @@ class OrderViewModel: ViewModel() {
         orderSourceList.postValue(tmpList)
     }
 
-    fun updateSelectedOrderSource(orderSource: OrderSource,position: Int){
+    fun updateSelectedOrderSource(orderSource: OrderSource, position: Int){
         selectedOrderSource.postValue(Pair(position,orderSource))
     }
 

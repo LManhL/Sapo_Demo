@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sapodemo.R
-import com.example.sapodemo.model.ProductOrder
-import com.example.sapodemo.model.ProductPrototype
+import com.example.sapodemo.presenter.model.ProductOrder
+import com.example.sapodemo.presenter.model.ProductPrototype
 
 class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(ProductDifferCallback
 ) {
