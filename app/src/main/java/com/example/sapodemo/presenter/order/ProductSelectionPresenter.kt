@@ -46,6 +46,7 @@ class ProductSelectionPresenter(
                     }
                 }
             }
+            else view.updateViewInit(API_RESULT.ERROR, res.message().toString(), MetadataModel.DISABLE_LOAD_MORE)
         }
         catch (e: Exception){
             view.updateViewInit(API_RESULT.ERROR, e.message.toString(), MetadataModel.DISABLE_LOAD_MORE)
@@ -72,14 +73,14 @@ class ProductSelectionPresenter(
                     }
                 }
             }
+            else {
+                viewModel.removeLastItemOfProductOrderList()
+                view.updateViewLoadMore(API_RESULT.ERROR, res.message().toString(), MetadataModel.DISABLE_LOAD_MORE)
+            }
         }
         catch (e: Exception){
             viewModel.removeLastItemOfProductOrderList()
-            view.updateViewLoadMore(
-                API_RESULT.ERROR,
-                e.message.toString(),
-                MetadataModel.DISABLE_LOAD_MORE
-            )
+            view.updateViewLoadMore(API_RESULT.ERROR, e.message.toString(), MetadataModel.DISABLE_LOAD_MORE)
         }
     }
 

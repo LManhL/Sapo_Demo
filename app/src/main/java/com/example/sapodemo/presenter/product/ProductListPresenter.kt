@@ -78,8 +78,7 @@ class ProductListPresenter(
                     if (type == ProductPrototype.PRODUCT_TYPE) {
                         val productResponse = responseBody as JsonProductsResponse
                         resList = productResponse.productResponses
-                        enableLoadMore =
-                            MetadataModel(productResponse.metadataResponse).enableLoadMore()
+                        enableLoadMore = MetadataModel(productResponse.metadataResponse).enableLoadMore()
                     } else {
                         val variantResponse = responseBody as JsonVariantsResponse
                         resList = variantResponse.variantResponses
@@ -98,6 +97,7 @@ class ProductListPresenter(
                 }
             }
             else {
+                viewModel.removeLast()
                 view.updateViewLoadMore(API_RESULT.ERROR, res.message().toString(), MetadataModel.DISABLE_LOAD_MORE)
             }
         }
