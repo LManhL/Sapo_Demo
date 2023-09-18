@@ -107,7 +107,6 @@ class CustomKeyBoard @JvmOverloads constructor(
 
     fun initContent(initValue: String) {
         inputConnection?.commitText(initValue, 1)
-        Log.d("???","???????????????")
     }
 
     fun onClickDeleteAll(){

@@ -1,6 +1,6 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.product.OptionResponse
+import com.example.sapodemo.data.network.model.product.OptionResponse
 
 
 class Option() {

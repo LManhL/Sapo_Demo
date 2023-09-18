@@ -15,17 +15,18 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sapodemo.presenter.product.viewmodel.ProductListViewModel
+import com.example.sapodemo.presenter.product.ProductListViewModel
 import com.example.sapodemo.R
 import com.example.sapodemo.ui.product.adapter.ProductListAdapter
-import com.example.sapodemo.api.config.API_RESULT
+import com.example.sapodemo.data.network.config.API_RESULT
 import com.example.sapodemo.contract.product.ProductListContract
+import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.databinding.FragmentProductListBinding
 import com.example.sapodemo.presenter.model.MetadataModel
 import com.example.sapodemo.presenter.model.Product
 import com.example.sapodemo.presenter.model.ProductPrototype
 import com.example.sapodemo.presenter.model.Variant
-import com.example.sapodemo.presenter.product.productpresenter.ProductListPresenter
+import com.example.sapodemo.presenter.product.ProductListPresenter
 import com.example.sapodemo.ui.product.custom.CustomTextWatcher
 import kotlinx.coroutines.*
 
@@ -48,7 +49,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        productListPresenter = ProductListPresenter(this, model)
+        productListPresenter = ProductListPresenter(this, model, AppDataManager(context!!))
     }
 
     override fun onCreateView(
@@ -78,7 +79,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         }
     }
 
-    override fun init() {
+    override fun initData() {
         binding.swprfsProductList.isRefreshing = true
         CoroutineScope(Dispatchers.Main).launch {
             productListPresenter.init(binding.edtProductListSearch.text.toString(), currentType)
@@ -122,17 +123,16 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
     }
     override fun swipeRefresh() {
         CoroutineScope(Dispatchers.Main).launch {
-            productListPresenter.swipeRefresh()
+            productListPresenter.init(
+                binding.edtProductListSearch.text.toString(),
+                currentType)
         }
-    }
-    override fun updateViewSwipeRefresh() {
-        binding.swprfsProductList.isRefreshing = false
     }
     private fun initView() {
         setUpViewModel()
         setUpRecycleView()
         setUpEventListener()
-        if (model.products.value.isNullOrEmpty()) init()
+        if (model.products.value.isNullOrEmpty()) initData()
     }
 
     private fun setUpRecycleView() {
@@ -175,7 +175,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
                         job?.cancel()
                         job = CoroutineScope(Dispatchers.Main).launch {
                             delay(500)
-                            init()
+                            initData()
                         }
                     }
                 }
@@ -235,7 +235,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         currentType = if (currentType == ProductPrototype.PRODUCT_TYPE) ProductPrototype.VARIANT_TYPE
                       else ProductPrototype.PRODUCT_TYPE
         isLoadMore = MetadataModel.ENABLE_LOAD_MORE
-        init()
+        initData()
         setUpViewModel()
     }
 }

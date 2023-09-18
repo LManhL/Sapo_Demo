@@ -1,6 +1,6 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.product.MetadataResponse
+import com.example.sapodemo.data.network.model.product.MetadataResponse
 
 class MetadataModel() {
 

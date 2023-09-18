@@ -17,10 +17,11 @@ import com.bumptech.glide.Glide
 import com.example.sapodemo.R
 import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
 import com.example.sapodemo.contract.product.VariantDetailContract
+import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.databinding.FragmentVariantDetailBinding
 import com.example.sapodemo.presenter.model.Variant
-import com.example.sapodemo.presenter.product.productpresenter.VariantDetailPresenter
-import com.example.sapodemo.presenter.product.viewmodel.VariantDetailViewModel
+import com.example.sapodemo.presenter.product.VariantDetailPresenter
+import com.example.sapodemo.presenter.product.VariantDetailViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +42,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = VariantDetailPresenter(this, model)
+        presenter = VariantDetailPresenter(this, model, AppDataManager(context!!))
         productId = arguments?.getInt(PRODUCT_ID)
         variantId = arguments?.getInt(VARIANT_ID)
     }
@@ -57,7 +58,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
         return view;
     }
 
-    override fun init() {
+    override fun initData() {
         CoroutineScope(Dispatchers.Main).launch {
             if (productId != null && variantId != null) {
                 presenter.getVariant(productId!!, variantId!!)
@@ -120,7 +121,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
     private fun initView() {
         binding.scrvVariantDetailContainer.visibility = View.GONE
         if (variantId != null && productId != null) {
-            init()
+            initData()
         } else {
             Toast.makeText(activity, "Problem passing parameter", Toast.LENGTH_SHORT).show()
         }

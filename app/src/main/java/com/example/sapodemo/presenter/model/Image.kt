@@ -1,7 +1,7 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.product.ImageProductResponse
-import com.example.sapodemo.api.model.product.ImageVariantResponse
+import com.example.sapodemo.data.network.model.product.ImageProductResponse
+import com.example.sapodemo.data.network.model.product.ImageVariantResponse
 
 class Image() {
     var fullPath: String? = null

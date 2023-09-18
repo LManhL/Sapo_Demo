@@ -31,8 +31,10 @@ class CustomKeyBoardDialog(context: Context, private val initValue: String = "0"
 
 
         val inputConnection = editText.onCreateInputConnection(EditorInfo())
-        customKeyBoard.inputConnection = inputConnection
+        editText.setRawInputType(InputType.TYPE_NULL)
+        editText.setTextIsSelectable(true)
 
+        customKeyBoard.inputConnection = inputConnection
         customKeyBoard.initContent(initValue)
         customKeyBoard.onClickCancel = {
             onClickCancel?.invoke()
@@ -46,7 +48,5 @@ class CustomKeyBoardDialog(context: Context, private val initValue: String = "0"
         clearTextButton.setOnClickListener {
             customKeyBoard.onClickDeleteAll()
         }
-        editText.setRawInputType(InputType.TYPE_NULL)
-        editText.setTextIsSelectable(true)
     }
 }

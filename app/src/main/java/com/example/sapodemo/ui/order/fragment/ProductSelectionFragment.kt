@@ -1,7 +1,5 @@
 package com.example.sapodemo.ui.order.fragment
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,21 +13,22 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
-import com.example.sapodemo.api.config.API_RESULT
+import com.example.sapodemo.data.network.config.API_RESULT
 import com.example.sapodemo.databinding.FragmentProductSelectionBinding
 import com.example.sapodemo.presenter.model.MetadataModel
 import com.example.sapodemo.presenter.model.ProductOrder
-import com.example.sapodemo.presenter.order.orderpresenter.ProductSelectionPresenter
+import com.example.sapodemo.presenter.order.ProductSelectionPresenter
 import com.example.sapodemo.contract.order.ProductSelectionContract
-import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
+import com.example.sapodemo.data.manager.AppDataManager
+import com.example.sapodemo.presenter.order.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ProductSelectionAdapter
 import com.example.sapodemo.ui.order.custom.CustomOnQueryTextChangeListener
 import kotlinx.coroutines.*
 
 class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSelectionView {
+
     private lateinit var binding: FragmentProductSelectionBinding
     private lateinit var productSelectionPresenter: ProductSelectionPresenter
-    private lateinit var sharedPref: SharedPreferences
     private val model: OrderViewModel by navGraphViewModels(R.id.orderFragment)
     private val productSelectionAdapter = ProductSelectionAdapter()
     private var isLoadMore: Boolean = MetadataModel.ENABLE_LOAD_MORE
@@ -39,9 +38,8 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        productSelectionPresenter = ProductSelectionPresenter(this, model)
-        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        isMultipleSelection = sharedPref.getBoolean(getString(R.string.is_multiple_selection), false)
+        productSelectionPresenter = ProductSelectionPresenter(this, model, AppDataManager(context!!))
+        isMultipleSelection = productSelectionPresenter.getSharePrefSelectionType()
     }
 
     override fun onCreateView(
@@ -60,7 +58,8 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
         model.convertItemSelectedHashmapToItemSelectedList()
     }
 
-    override fun init() {
+    override fun initData() {
+        binding.swprfsProductSelection.isRefreshing = true
         CoroutineScope(Dispatchers.Main).launch {
             productSelectionPresenter.init(binding.sevProductSelection.query.toString())
         }
@@ -84,6 +83,7 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
 
     override fun updateViewInit(res: API_RESULT, response: String, enableLoadMore: Boolean) {
         Log.d("API response ProductSelectionFragment", response)
+        binding.swprfsProductSelection.isRefreshing = false
         isLoadMore = enableLoadMore
         when (res) {
             API_RESULT.EMPTYLIST -> binding.tvProductSelectionEmptyMessage.visibility = View.VISIBLE
@@ -117,13 +117,11 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
     private fun initView() {
         setUpEventListener()
         setUpRecycleView()
-        if (model.productOrderList.value.isNullOrEmpty()) init()
+        if (model.productOrderList.value.isNullOrEmpty()) initData()
     }
 
     private fun setUpRecycleView() {
-        productSelectionAdapter.onClick = { product, position
-            ->
-            select(product, position)
+        productSelectionAdapter.onClick = { product, position -> select(product, position)
         }
         model.productOrderList.observe(this) { list ->
             productSelectionAdapter.submitList(list.toList())
@@ -157,18 +155,18 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
                     job?.cancel()
                     job = CoroutineScope(Dispatchers.Main).launch {
                         delay(500)
-                        init()
+                        initData()
                     }
                     return false
                 }
             })
+            swprfsProductSelection.setOnRefreshListener {
+                binding.swprfsProductSelection.isRefreshing = false
+            }
             tglBtnProductSelectionMultipleSelection.isChecked = isMultipleSelection
             tglBtnProductSelectionMultipleSelection.setOnCheckedChangeListener { _, isChecked ->
                 isMultipleSelection = isChecked
-                with(sharedPref.edit()) {
-                    putBoolean(getString(R.string.is_multiple_selection), isChecked)
-                    apply()
-                }
+                productSelectionPresenter.setSharePrefSelectionType(isMultipleSelection)
             }
             btnProductSelectionSubmit.setOnClickListener {
                 submit()

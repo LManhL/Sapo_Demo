@@ -19,7 +19,7 @@ class OrderContract {
         fun onClickModifyQuantityItem(productOrder: ProductOrder, position: Int)
         fun createOrder()
         fun onCreateOrderSuccess()
-        fun onFailCreateOrder(message: String)
+        fun onCreateOrderFail(message: String)
         fun onSelectOrderSource(orderSource: OrderSource, position: Int)
     }
 }

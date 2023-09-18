@@ -1,6 +1,6 @@
 package com.example.sapodemo.contract.order
 
-import com.example.sapodemo.api.config.API_RESULT
+import com.example.sapodemo.data.network.config.API_RESULT
 import com.example.sapodemo.presenter.model.ProductOrder
 
 class ProductSelectionContract {
@@ -10,10 +10,12 @@ class ProductSelectionContract {
         fun select(productOrder: ProductOrder, position: Int)
         fun submit()
         fun reselect()
+        fun getSharePrefSelectionType(): Boolean
+        fun setSharePrefSelectionType(type: Boolean)
     }
 
     interface ProductSelectionView {
-        fun init()
+        fun initData()
         fun loadMore()
         fun select(productOrder: ProductOrder, position: Int)
         fun reselect()

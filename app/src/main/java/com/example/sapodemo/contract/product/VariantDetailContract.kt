@@ -9,6 +9,6 @@ class VariantDetailContract {
         fun onSuccess(response: String)
         fun onFail(response: String)
         fun updateViewInit()
-        fun init()
+        fun initData()
     }
 }

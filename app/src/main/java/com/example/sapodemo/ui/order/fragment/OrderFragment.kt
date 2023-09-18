@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.contract.order.OrderContract
+import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.databinding.FragmentOrderBinding
 import com.example.sapodemo.presenter.model.OrderSource
 import com.example.sapodemo.presenter.model.ProductOrder
-import com.example.sapodemo.presenter.order.orderpresenter.OrderPresenter
-import com.example.sapodemo.presenter.order.viewmodel.OrderViewModel
+import com.example.sapodemo.presenter.order.OrderPresenter
+import com.example.sapodemo.presenter.order.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ItemSelectedAdapter
 import com.example.sapodemo.ui.order.dialog.CustomKeyBoardDialog
 import com.example.sapodemo.ui.order.dialog.ListDialog
@@ -38,7 +39,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = OrderPresenter(this, model)
+        presenter = OrderPresenter(this, model, AppDataManager(context!!))
     }
 
     override fun onCreateView(
@@ -75,6 +76,16 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
         presenter.handleAdd(productOrder, position)
     }
 
+    override fun onClickModifyQuantityItem(productOrder: ProductOrder, position: Int) {
+        val customKeyBoardDialog = CustomKeyBoardDialog(
+            activity!!,
+            FormatNumberUtil.formatNumberFloor(productOrder.quantity)
+        )
+        customKeyBoardDialog.onClickEnter = { numberString ->
+            presenter.handleSubmitQuantity(productOrder, position, numberString)
+        }
+        customKeyBoardDialog.show()
+    }
     override fun onClickCancelItem(productOrder: ProductOrder, position: Int) {
         val yesNoDialog = OptionDialog(activity!!)
         yesNoDialog.showYesNoDialog(
@@ -87,17 +98,6 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
                 override fun onNoClicked() {}
             })
-    }
-
-    override fun onClickModifyQuantityItem(productOrder: ProductOrder, position: Int) {
-        val customKeyBoardDialog = CustomKeyBoardDialog(
-            activity!!,
-            FormatNumberUtil.formatNumberFloor(productOrder.quantity)
-        )
-        customKeyBoardDialog.onClickEnter = { numberString ->
-            presenter.handleSubmitQuantity(productOrder, position, numberString)
-        }
-        customKeyBoardDialog.show()
     }
     override fun createOrder() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -112,7 +112,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
             .show()
     }
 
-    override fun onFailCreateOrder(message: String) {
+    override fun onCreateOrderFail(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -135,8 +135,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
     private fun setUpOrderSourceListDialog() {
         listDialog = ListDialog(activity!!)
-        listDialog.orderSourceAdapter.onClick =
-            { orderSource, i -> onSelectOrderSource(orderSource, i) }
+        listDialog.orderSourceAdapter.onClick = { orderSource, i -> onSelectOrderSource(orderSource, i) }
         model.orderSourceList.observe(this) {
             listDialog.orderSourceAdapter.submitList(it.toList())
         }
@@ -159,14 +158,14 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     }
 
     private fun setUpRecycleView() {
-        itemSelectedAdapter.onClickAdd = { productOrder, i -> onClickAddItem(productOrder, i) }
-        itemSelectedAdapter.onClickMinus = { productOrder, i -> onClickMinusItem(productOrder, i) }
-        itemSelectedAdapter.onClickCancel = { productOrder, i -> onClickCancelItem(productOrder, i) }
-        itemSelectedAdapter.onClickChangeQuantity = { productOrder, i -> onClickModifyQuantityItem(productOrder, i) }
+        itemSelectedAdapter.onClickAdd = { productOrder, position -> onClickAddItem(productOrder, position) }
+        itemSelectedAdapter.onClickMinus = { productOrder, position -> onClickMinusItem(productOrder, position) }
+        itemSelectedAdapter.onClickCancel = { productOrder, position -> onClickCancelItem(productOrder, position) }
+        itemSelectedAdapter.onClickChangeQuantity = { productOrder, position -> onClickModifyQuantityItem(productOrder, position) }
 
         model.itemSelectedList.observe(this) {
             itemSelectedAdapter.submitList(it.toList())
-            if (model.itemSelectedHashMap.value.isNullOrEmpty()) {
+            if (it.isNullOrEmpty()) {
                 binding.llOrderAddProduct.visibility = View.VISIBLE
             }
             else binding.llOrderAddProduct.visibility = View.GONE

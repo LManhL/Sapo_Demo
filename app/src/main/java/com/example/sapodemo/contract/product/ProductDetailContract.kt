@@ -8,6 +8,6 @@ class ProductDetailContract {
         fun onSuccess(response: String)
         fun onFail(response: String)
         fun setUpView()
-        fun init(id: Int)
+        fun initData(id: Int)
     }
 }

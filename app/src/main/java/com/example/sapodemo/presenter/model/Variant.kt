@@ -1,8 +1,8 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.product.ImageVariantResponse
-import com.example.sapodemo.api.model.product.InventoryResponse
-import com.example.sapodemo.api.model.product.VariantResponse
+import com.example.sapodemo.data.network.model.product.ImageVariantResponse
+import com.example.sapodemo.data.network.model.product.InventoryResponse
+import com.example.sapodemo.data.network.model.product.VariantResponse
 import com.example.sapodemo.util.FormatNumberUtil
 
 

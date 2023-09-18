@@ -1,9 +1,9 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.product.ImageProductResponse
-import com.example.sapodemo.api.model.product.OptionResponse
-import com.example.sapodemo.api.model.product.ProductResponse
-import com.example.sapodemo.api.model.product.VariantResponse
+import com.example.sapodemo.data.network.model.product.ImageProductResponse
+import com.example.sapodemo.data.network.model.product.OptionResponse
+import com.example.sapodemo.data.network.model.product.ProductResponse
+import com.example.sapodemo.data.network.model.product.VariantResponse
 
 open class Product() : ProductPrototype(){
 

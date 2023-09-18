@@ -63,4 +63,6 @@
     <string name="cancel">Hủy</string>
     <string name="lack_of_goods">Thiếu hàng</string>
     <string name="empty_order">Đơn hàng của bạn chưa có sản phẩm nào!</string>
+    <string name="reselect">Chọn lại</string>
+    <string name="submit">Xong</string>
 </resources>

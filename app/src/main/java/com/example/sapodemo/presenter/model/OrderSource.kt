@@ -1,6 +1,6 @@
 package com.example.sapodemo.presenter.model
 
-import com.example.sapodemo.api.model.order.OrderSourceResponse
+import com.example.sapodemo.data.network.model.order.OrderSourceResponse
 
 data class OrderSource (
     var id: Int? = null,

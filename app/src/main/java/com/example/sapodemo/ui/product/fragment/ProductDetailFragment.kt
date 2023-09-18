@@ -17,11 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.ui.product.adapter.ImageListAdapter
 import com.example.sapodemo.contract.product.ProductDetailContract
+import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.databinding.FragmentProductDetailBinding
 import com.example.sapodemo.presenter.model.Image
 import com.example.sapodemo.presenter.model.Variant
-import com.example.sapodemo.presenter.product.productpresenter.ProductDetailPresenter
-import com.example.sapodemo.presenter.product.viewmodel.ProductDetailViewModel
+import com.example.sapodemo.presenter.product.ProductDetailPresenter
+import com.example.sapodemo.presenter.product.ProductDetailViewModel
 import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        productDetailPresenter = ProductDetailPresenter(this, model)
+        productDetailPresenter = ProductDetailPresenter(this, model, AppDataManager(context!!))
         id = arguments?.getInt(ProductListFragment.PRODUCT_ID)
         isMultipleVariant = arguments?.getBoolean(ProductListFragment.IS_MULTIPLE_VARIANT)
     }
@@ -60,7 +61,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
         return binding.root
     }
 
-    override fun init(id: Int) {
+    override fun initData(id: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             productDetailPresenter.getProduct(id)
         }
@@ -97,7 +98,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
     private fun initView(){
         binding.scrvProductDetailContainer.visibility = View.GONE
         if(id != null){
-            init(id!!)
+            initData(id!!)
         }
         else{
             Toast.makeText(activity,"Problem passing parameter",Toast.LENGTH_SHORT).show()
