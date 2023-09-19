@@ -27,7 +27,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_toStartOf="@id/tvProductSelectionName"
-            android:background="@drawable/shape_cir_pri_bg_blue_stroke_corner_light"
+            android:background="@drawable/shape_cir_white_bg_blue_stroke_corner_medium"
             android:gravity="center"
             android:text="999999.999"
             android:textSize="12sp"

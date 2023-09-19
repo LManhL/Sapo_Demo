@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.product.fragment.ProductDetailFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrvProductDetailContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -705,6 +705,6 @@
                 android:textStyle="normal" />
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

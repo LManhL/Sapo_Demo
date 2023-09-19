@@ -38,14 +38,12 @@ class ProductListPresenter(
                     if (type == ProductPrototype.PRODUCT_TYPE) {
                         val productResponse = responseBody as JsonProductsResponse
                         resList = productResponse.productResponses
-                        enableLoadMore =
-                            MetadataModel(productResponse.metadataResponse).enableLoadMore()
+                        enableLoadMore = MetadataModel(productResponse.metadataResponse).enableLoadMore()
                         viewModel.total.postValue(responseBody.metadataResponse.total)
                     } else {
                         val variantResponse = responseBody as JsonVariantsResponse
                         resList = variantResponse.variantResponses
-                        enableLoadMore =
-                            MetadataModel(variantResponse.metadataResponse).enableLoadMore()
+                        enableLoadMore = MetadataModel(variantResponse.metadataResponse).enableLoadMore()
                         viewModel.total.postValue(responseBody.metadataResponse.total)
                     }
                     if (resList.isNotEmpty()) {
@@ -82,8 +80,7 @@ class ProductListPresenter(
                     } else {
                         val variantResponse = responseBody as JsonVariantsResponse
                         resList = variantResponse.variantResponses
-                        enableLoadMore =
-                            MetadataModel(variantResponse.metadataResponse).enableLoadMore()
+                        enableLoadMore = MetadataModel(variantResponse.metadataResponse).enableLoadMore()
                     }
 
                     if (resList.isNotEmpty()) {
