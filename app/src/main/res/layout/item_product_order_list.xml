@@ -9,7 +9,7 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/ivProductSelectionIllustration"
+            android:id="@+id/ivProductOrderListIllustration"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="10dp"
@@ -20,13 +20,13 @@
             android:src="@color/purple_500" />
 
         <TextView
-            android:id="@+id/tvProductSelectionQuantity"
+            android:id="@+id/tvProductOrderListQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:layout_toStartOf="@id/tvProductSelectionName"
+            android:layout_toStartOf="@id/tvProductOrderListName"
             android:background="@drawable/shape_cir_white_bg_blue_stroke_corner_medium"
             android:gravity="center"
             android:text="999999.999"
@@ -34,14 +34,14 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tvProductSelectionName"
+            android:id="@+id/tvProductOrderListName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/tvProductSelectionCost"
-            android:layout_toEndOf="@id/ivProductSelectionIllustration"
+            android:layout_toStartOf="@id/tvProductOrderListCost"
+            android:layout_toEndOf="@id/ivProductOrderListIllustration"
             android:text="Coca cola"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -51,15 +51,15 @@
             />
 
         <TextView
-            android:id="@+id/tvProductSelectionSKUCode"
+            android:id="@+id/tvProductOrderListSKUCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvProductSelectionName"
+            android:layout_below="@id/tvProductOrderListName"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/tvProductSelectionAvailable"
-            android:layout_toEndOf="@+id/ivProductSelectionIllustration"
+            android:layout_toStartOf="@id/tvProductOrderListAvailable"
+            android:layout_toEndOf="@+id/ivProductOrderListIllustration"
             android:text="SKU: 1234566678"
             android:textSize="16sp"
             android:maxLines="2"
@@ -67,20 +67,20 @@
             />
 
         <TextView
-            android:id="@+id/tvProductSelectionCost"
+            android:id="@+id/tvProductOrderListCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tvProductSelectionName"
+            android:layout_alignBaseline="@id/tvProductOrderListName"
             android:layout_alignParentEnd="true"
             android:text="10000"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvProductSelectionAvailable"
+            android:id="@+id/tvProductOrderListAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tvProductSelectionSKUCode"
+            android:layout_alignBaseline="@id/tvProductOrderListSKUCode"
             android:layout_alignParentEnd="true"
             android:text="50"
             android:textSize="16sp" />

@@ -5,7 +5,7 @@
     android:layout_margin="10dp">
 
     <TextView
-        android:id="@+id/tvOrderName"
+        android:id="@+id/tvSelectedProductListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -13,7 +13,7 @@
         android:textColor="@color/black" />
 
     <ImageView
-        android:id="@+id/ivOrderCancel"
+        android:id="@+id/ivSelectedProductListCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -21,13 +21,13 @@
         android:src="@drawable/ic_cancle" />
 
     <RelativeLayout
-        android:id="@+id/rlOrderContainSKU"
+        android:id="@+id/rlSelectedProductListContainSKU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvOrderName">
+        android:layout_below="@id/tvSelectedProductListName">
 
         <TextView
-            android:id="@+id/tvOrderSkuCode"
+            android:id="@+id/tvSelectedProductListSkuCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -36,13 +36,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/tvOrderSkuCode"
+            android:layout_alignBaseline="@id/tvSelectedProductListSkuCode"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/ivOrderMinus"
+                android:id="@+id/ivSelectedProductListMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -55,18 +55,16 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:id="@+id/tvOrderQuantity"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvSelectedProductListQuantity"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:paddingRight="25dp"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="1" />
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:text="99.99..." />
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/ivOrderAdd"
+                android:id="@+id/ivSelectedProductListAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -78,10 +76,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlOrderContainSKU">
+        android:layout_below="@id/rlSelectedProductListContainSKU">
 
         <TextView
-            android:id="@+id/tvOrderItemPrice"
+            android:id="@+id/tvSelectedProductListItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -90,7 +88,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/llOrderWarning"
+            android:id="@+id/llSelectedProductListWarning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

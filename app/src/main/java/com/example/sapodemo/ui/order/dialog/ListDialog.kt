@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
-import com.example.sapodemo.ui.order.adapter.OrderSourceAdapter
+import com.example.sapodemo.ui.order.adapter.OrderSourceListAdapter
 
 
 class ListDialog(
     context: Context,
 ) : Dialog(context) {
 
-    var orderSourceAdapter: OrderSourceAdapter = OrderSourceAdapter()
+    var orderSourceListAdapter: OrderSourceListAdapter = OrderSourceListAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState ?: Bundle())
         this.setContentView(R.layout.layout_dialog_order_source_list)
@@ -26,7 +26,7 @@ class ListDialog(
 
         val recyclerView = this.findViewById<RecyclerView>(R.id.rclvDialogOrderSourceList)
         recyclerView.apply {
-            adapter = orderSourceAdapter
+            adapter = orderSourceListAdapter
             addItemDecoration(DividerItemDecoration(ContextThemeWrapper(this.context, R.style.Theme_SapoDemo), RecyclerView.VERTICAL))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }

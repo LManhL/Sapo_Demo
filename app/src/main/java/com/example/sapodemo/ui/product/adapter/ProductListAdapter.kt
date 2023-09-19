@@ -30,12 +30,12 @@ class ProductListAdapter() : ListAdapter<ProductPrototype,RecyclerView.ViewHolde
         return when (viewType) {
             VIEW_TYPE_PRODUCT -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_fragment_product_list, parent, false)
+                    .inflate(R.layout.item_product_list, parent, false)
                 ProductListViewHolder(view)
             }
             VIEW_TYPE_VARIANT -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_fragment_variant_list, parent, false)
+                    .inflate(R.layout.item_variant_list, parent, false)
                  VariantListViewHolder(view)
             }
             else -> {

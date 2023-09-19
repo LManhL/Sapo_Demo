@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.ProductOrder
 
-class ItemSelectedAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
+class SelectedProductListAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
     ProductOrderDifferCallback
 ) {
 
@@ -24,7 +23,7 @@ class ItemSelectedAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_fragment_order, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_selected_product_list, parent, false)
         return OrderLineItemViewHolder(view)
     }
 
@@ -56,14 +55,14 @@ class ItemSelectedAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
     }
 
     inner class OrderLineItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val name: TextView = itemView.findViewById(R.id.tvOrderName)
-        private val sku: TextView = itemView.findViewById(R.id.tvOrderSkuCode)
-        private val price: TextView = itemView.findViewById(R.id.tvOrderItemPrice)
-        private val quantity: TextView = itemView.findViewById(R.id.tvOrderQuantity)
-        private val minus: ImageView = itemView.findViewById(R.id.ivOrderMinus)
-        private val add: ImageView = itemView.findViewById(R.id.ivOrderAdd)
-        private val cancel: ImageView = itemView.findViewById(R.id.ivOrderCancel)
-        private val warning: LinearLayout = itemView.findViewById(R.id.llOrderWarning)
+        private val name: TextView = itemView.findViewById(R.id.tvSelectedProductListName)
+        private val sku: TextView = itemView.findViewById(R.id.tvSelectedProductListSkuCode)
+        private val price: TextView = itemView.findViewById(R.id.tvSelectedProductListItemPrice)
+        private val quantity: TextView = itemView.findViewById(R.id.tvSelectedProductListQuantity)
+        private val minus: ImageView = itemView.findViewById(R.id.ivSelectedProductListMinus)
+        private val add: ImageView = itemView.findViewById(R.id.ivSelectedProductListAdd)
+        private val cancel: ImageView = itemView.findViewById(R.id.ivSelectedProductListCancel)
+        private val warning: LinearLayout = itemView.findViewById(R.id.llSelectedProductListWarning)
         private var currentProductOrder: ProductOrder = ProductOrder()
 
         init {
@@ -95,7 +94,7 @@ class ItemSelectedAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
             bindWarning()
         }
         fun bindQuantity() {
-            quantity.text = currentProductOrder.quantityToString()
+            quantity.text = currentProductOrder.truncateQuantityToString()
         }
 
         fun bindWarning() {

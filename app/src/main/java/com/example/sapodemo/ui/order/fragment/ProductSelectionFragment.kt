@@ -21,7 +21,7 @@ import com.example.sapodemo.presenter.order.ProductSelectionPresenter
 import com.example.sapodemo.contract.order.ProductSelectionContract
 import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.presenter.order.OrderViewModel
-import com.example.sapodemo.ui.order.adapter.ProductSelectionAdapter
+import com.example.sapodemo.ui.order.adapter.ProductOrderListAdapter
 import com.example.sapodemo.ui.order.custom.CustomOnQueryTextChangeListener
 import kotlinx.coroutines.*
 
@@ -30,7 +30,7 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
     private lateinit var binding: FragmentProductSelectionBinding
     private lateinit var productSelectionPresenter: ProductSelectionPresenter
     private val model: OrderViewModel by navGraphViewModels(R.id.orderFragment)
-    private val productSelectionAdapter = ProductSelectionAdapter()
+    private val productOrderListAdapter = ProductOrderListAdapter()
     private var isLoadMore: Boolean = MetadataModel.ENABLE_LOAD_MORE
     private var isMultipleSelection: Boolean = false
     private var job: Job? = null
@@ -121,15 +121,15 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
     }
 
     private fun setUpRecycleView() {
-        productSelectionAdapter.onClick = { product, position -> select(product, position)
+        productOrderListAdapter.onClick = { product, position -> select(product, position)
         }
         model.productOrderList.observe(this) { list ->
-            productSelectionAdapter.submitList(list.toList())
+            productOrderListAdapter.submitList(list.toList())
         }
         binding.apply {
             rclvProductSelection.apply {
                 layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                adapter = productSelectionAdapter
+                adapter = productOrderListAdapter
                 addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

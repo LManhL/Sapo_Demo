@@ -25,7 +25,7 @@ class ImageListAdapter(private val images: List<Image>): RecyclerView.Adapter<Im
         holder.bind(image)
     }
     class ImageViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView){
-        private val imageView: ImageView = itemView.findViewById(R.id.ivImagesProductImage)
+        private val imageView: ImageView = itemView.findViewById(R.id.ivImageListProductImage)
         fun bind(image: Image){
             Glide.with(itemView).load(image.fullPath)
                 .placeholder(R.drawable.ic_blank_photo)

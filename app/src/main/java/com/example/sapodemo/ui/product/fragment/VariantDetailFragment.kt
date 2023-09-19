@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.bumptech.glide.Glide
 import com.example.sapodemo.R
-import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
+import com.example.sapodemo.ui.product.adapter.UnitListAdapter
 import com.example.sapodemo.contract.product.VariantDetailContract
 import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.databinding.FragmentVariantDetailBinding
@@ -35,7 +35,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
 
     private lateinit var presenter: VariantDetailContract.VariantDetailPresenter
     private lateinit var binding: FragmentVariantDetailBinding
-    private var unitListAdapter = ProductDetailVariantListAdapter()
+    private var unitListAdapter = UnitListAdapter()
     private val model: VariantDetailViewModel by viewModels()
     private var productId: Int? = null
     private var variantId: Int? = null
@@ -133,7 +133,7 @@ class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailVie
             layoutManager = LinearLayoutManager(activity, VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, VERTICAL))
         }
-        unitListAdapter = ProductDetailVariantListAdapter()
+        unitListAdapter = UnitListAdapter()
         unitListAdapter.onClick = { variant: Variant -> adapterOnClick(variant) }
         model.unitList.observe(this) { unitList ->
             unitListAdapter.submitList(unitList)

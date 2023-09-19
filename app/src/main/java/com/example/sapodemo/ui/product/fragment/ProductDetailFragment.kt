@@ -23,7 +23,7 @@ import com.example.sapodemo.presenter.model.Image
 import com.example.sapodemo.presenter.model.Variant
 import com.example.sapodemo.presenter.product.ProductDetailPresenter
 import com.example.sapodemo.presenter.product.ProductDetailViewModel
-import com.example.sapodemo.ui.product.adapter.ProductDetailVariantListAdapter
+import com.example.sapodemo.ui.product.adapter.UnitListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var productDetailPresenter: ProductDetailContract.ProductDetailPresenter
     private lateinit var imageListAdapter: ImageListAdapter
-    private lateinit var variantListAdapter: ProductDetailVariantListAdapter
+    private lateinit var variantListAdapter: UnitListAdapter
     private val imageList: MutableList<Image> = mutableListOf()
     private val model: ProductDetailViewModel by viewModels()
     private var id: Int? = null
@@ -133,7 +133,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
         }
     }
     private fun setUpViewMultipleVariant(){
-        variantListAdapter = ProductDetailVariantListAdapter()
+        variantListAdapter = UnitListAdapter()
         variantListAdapter.onClick = {variant -> adapterOnClick(variant)}
 
         binding.rclvProductDetailVariantList.apply {

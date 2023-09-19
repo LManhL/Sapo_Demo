@@ -111,7 +111,7 @@ class CustomKeyBoard @JvmOverloads constructor(
                 handleClickDigit(v)
             }
         }
-        setValue(v)
+        setValue()
     }
 
     fun initContent(initValue: String) {
@@ -148,7 +148,7 @@ class CustomKeyBoard @JvmOverloads constructor(
         }
         inputConnection!!.commitText(value, 1)
     }
-    private fun setValue(v: View){
+    private fun setValue(){
         val currentText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
         var currentNumber = currentText.filter { it.isDigit() || it == '.' }.toDoubleOrNull()
         if (currentNumber == null) {

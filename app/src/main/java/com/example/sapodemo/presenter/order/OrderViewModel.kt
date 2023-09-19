@@ -12,9 +12,10 @@ class OrderViewModel : ViewModel() {
 
     val itemSelectedHashMap = MutableLiveData<Map<Int, ProductOrder>>(emptyMap())
     val itemSelectedList = MutableLiveData<List<ProductOrder>>(emptyList())
-    val productOrderList = MutableLiveData<List<ProductOrder>>(emptyList())
     val orderSourceList = MutableLiveData<List<OrderSource>>(emptyList())
-    val selectedOrderSource = MutableLiveData(Pair(3532590, OrderSource()))
+    val selectedOrderSource = MutableLiveData<Pair<Int,OrderSource>>()
+
+    val productOrderList = MutableLiveData<List<ProductOrder>>(emptyList())
 
     fun convertOrderSourceResponseListAndAddToOrderSourceList(orderSourceResponseList: MutableList<OrderSourceResponse>) {
         val tmpList = orderSourceResponseList.map { OrderSource(it) }

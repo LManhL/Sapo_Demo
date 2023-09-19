@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.OrderSource
 
-class OrderSourceAdapter: ListAdapter<OrderSource,RecyclerView.ViewHolder>(OrderSourceDiffCallBack) {
+class OrderSourceListAdapter: ListAdapter<OrderSource,RecyclerView.ViewHolder>(OrderSourceDiffCallBack) {
 
     var onClick : ((OrderSource, Int) -> Unit)? = null
 

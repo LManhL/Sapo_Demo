@@ -1,4 +1,9 @@
 <resources>
+    <string name="nav_product_list">SẢN PHẨM</string>
+    <string name="nav_product_detail">CHI TIẾT SẢN PHẨM</string>
+    <string name="nav_variant_detail">CHI TIẾT PHIÊN BẢN</string>
+    <string name="nav_order">ĐƠN HÀNG</string>
+    <string name="nav_product_selection">CHỌN SẢN PHẨM</string>
     <string name="app_name">Sapo Demo</string>
     <string name="on_hand">Tồn kho</string>
     <string name="available">Có thể bán</string>

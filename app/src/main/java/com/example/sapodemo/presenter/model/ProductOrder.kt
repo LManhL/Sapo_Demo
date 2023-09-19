@@ -29,6 +29,9 @@ class ProductOrder() : Variant() {
     fun quantityToString(): String{
         return FormatNumberUtil.formatNumberCeil(quantity)
     }
+    fun truncateQuantityToString(): String{
+        return FormatNumberUtil.formatNumberCeilAndTruncate(quantity)
+    }
     fun copyOf(): ProductOrder {
         val productOrderCopy = ProductOrder()
         productOrderCopy.quantity = quantity

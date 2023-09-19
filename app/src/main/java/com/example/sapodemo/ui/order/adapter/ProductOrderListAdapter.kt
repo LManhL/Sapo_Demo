@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,7 +16,7 @@ import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.presenter.model.ProductPrototype
 
-class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(ProductOrderDifferCallback
+class ProductOrderListAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(ProductOrderDifferCallback
 ) {
     companion object{
         const val VIEW_TYPE_LOADING = 0
@@ -34,7 +33,7 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == VIEW_TYPE_VARIANT){
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_fragment_product_selection, parent, false)
+                .inflate(R.layout.item_product_order_list, parent, false)
             ProductSelectionViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context)
@@ -74,12 +73,12 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
 
 
     inner class ProductSelectionViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView){
-        private val imageView: ImageView = itemView.findViewById(R.id.ivProductSelectionIllustration)
-        private val name : TextView = itemView.findViewById(R.id.tvProductSelectionName)
-        private val SKU : TextView = itemView.findViewById(R.id.tvProductSelectionSKUCode)
-        private val available : TextView = itemView.findViewById(R.id.tvProductSelectionAvailable)
-        private val cost : TextView = itemView.findViewById(R.id.tvProductSelectionCost)
-        private val quantity: TextView = itemView.findViewById(R.id.tvProductSelectionQuantity)
+        private val imageView: ImageView = itemView.findViewById(R.id.ivProductOrderListIllustration)
+        private val name : TextView = itemView.findViewById(R.id.tvProductOrderListName)
+        private val SKU : TextView = itemView.findViewById(R.id.tvProductOrderListSKUCode)
+        private val available : TextView = itemView.findViewById(R.id.tvProductOrderListAvailable)
+        private val cost : TextView = itemView.findViewById(R.id.tvProductOrderListCost)
+        private val quantity: TextView = itemView.findViewById(R.id.tvProductOrderListQuantity)
         private val blinkAnimation = AnimationUtils.loadAnimation(itemView.context, R.anim.blink)
         private var currentProductOrder = ProductOrder()
 

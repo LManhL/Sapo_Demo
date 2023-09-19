@@ -5,7 +5,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/ivProductDetailMultipleVariantsSubArrow"
+        android:id="@+id/ivUnitListSubArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -13,11 +13,11 @@
         android:src="@drawable/ic_subdirectory_arrow" />
 
     <ImageView
-        android:id="@+id/ivProductDetailMultipleVariantsIllustration"
+        android:id="@+id/ivUnitListIllustration"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/ivProductDetailMultipleVariantsSubArrow"
+        android:layout_toEndOf="@+id/ivUnitListSubArrow"
         android:scaleType="centerInside"
         android:src="@color/purple_500" />
 
@@ -30,11 +30,11 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:layout_toStartOf="@+id/llProDetailMultipleVariantPriceAvailableOnhandContainer"
-        android:layout_toEndOf="@id/ivProductDetailMultipleVariantsIllustration"
+        android:layout_toEndOf="@id/ivUnitListIllustration"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvProductDetailMultipleVariantsName"
+            android:id="@+id/tvUnitListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="175dp"
@@ -47,7 +47,7 @@
             />
 
         <TextView
-            android:id="@+id/tvProductDetailMultipleVariantsSKU"
+            android:id="@+id/tvUnitListSKU"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="175dp"
@@ -66,7 +66,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvProductDetailMultipleVariantsPrice"
+            android:id="@+id/tvUnitListPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="15000"
@@ -75,14 +75,14 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tvProductDetailMultipleVariantsOnHand"
+            android:id="@+id/tvUnitListOnHand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tồn kho: 50"
             android:textAlignment="textEnd" />
 
         <TextView
-            android:id="@+id/tvProductDetailMultipleVariantsAvailable"
+            android:id="@+id/tvUnitListAvailable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Có thể bán: 50"

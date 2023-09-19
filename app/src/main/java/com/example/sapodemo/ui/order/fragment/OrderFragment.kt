@@ -21,10 +21,9 @@ import com.example.sapodemo.presenter.model.OrderSource
 import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.presenter.order.OrderPresenter
 import com.example.sapodemo.presenter.order.OrderViewModel
-import com.example.sapodemo.ui.order.adapter.ItemSelectedAdapter
+import com.example.sapodemo.ui.order.adapter.SelectedProductListAdapter
 import com.example.sapodemo.ui.order.dialog.CustomKeyBoardDialog
 import com.example.sapodemo.ui.order.dialog.ListDialog
-import com.example.sapodemo.presenter.util.FormatNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     private lateinit var presenter: OrderPresenter
     private lateinit var listDialog: ListDialog
     private val model: OrderViewModel by navGraphViewModels(R.id.orderFragment)
-    private val itemSelectedAdapter = ItemSelectedAdapter()
+    private val selectedProductListAdapter = SelectedProductListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,9 +134,9 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
     private fun setUpOrderSourceListDialog() {
         listDialog = ListDialog(activity!!)
-        listDialog.orderSourceAdapter.onClick = { orderSource, i -> onSelectOrderSource(orderSource, i) }
+        listDialog.orderSourceListAdapter.onClick = { orderSource, i -> onSelectOrderSource(orderSource, i) }
         model.orderSourceList.observe(this) {
-            listDialog.orderSourceAdapter.submitList(it.toList())
+            listDialog.orderSourceListAdapter.submitList(it.toList())
         }
     }
 
@@ -158,13 +157,13 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     }
 
     private fun setUpRecycleView() {
-        itemSelectedAdapter.onClickAdd = { productOrder, position -> onClickAddItem(productOrder, position) }
-        itemSelectedAdapter.onClickMinus = { productOrder, position -> onClickMinusItem(productOrder, position) }
-        itemSelectedAdapter.onClickCancel = { productOrder, position -> onClickCancelItem(productOrder, position) }
-        itemSelectedAdapter.onClickChangeQuantity = { productOrder, position -> onClickModifyQuantityItem(productOrder, position) }
+        selectedProductListAdapter.onClickAdd = { productOrder, position -> onClickAddItem(productOrder, position) }
+        selectedProductListAdapter.onClickMinus = { productOrder, position -> onClickMinusItem(productOrder, position) }
+        selectedProductListAdapter.onClickCancel = { productOrder, position -> onClickCancelItem(productOrder, position) }
+        selectedProductListAdapter.onClickChangeQuantity = { productOrder, position -> onClickModifyQuantityItem(productOrder, position) }
 
         model.itemSelectedList.observe(this) {
-            itemSelectedAdapter.submitList(it.toList())
+            selectedProductListAdapter.submitList(it.toList())
             if (it.isNullOrEmpty()) {
                 binding.llOrderAddProduct.visibility = View.VISIBLE
             }
@@ -173,7 +172,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
         binding.apply {
             rclvOrderProductList.apply {
-                adapter = itemSelectedAdapter
+                adapter = selectedProductListAdapter
                 addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
                 layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             }

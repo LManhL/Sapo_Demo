@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.Variant
 
-class ProductDetailVariantListAdapter: ListAdapter<Variant, RecyclerView.ViewHolder>(
+class UnitListAdapter: ListAdapter<Variant, RecyclerView.ViewHolder>(
     VariantDifferCallback
 ) {
     companion object{
@@ -24,7 +24,7 @@ class ProductDetailVariantListAdapter: ListAdapter<Variant, RecyclerView.ViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_fragment_product_detail_multiple_variants, parent, false)
+            .inflate(R.layout.item_unit_list, parent, false)
         return ProductDetailVariantListViewHolder(view)
     }
 
@@ -46,13 +46,13 @@ class ProductDetailVariantListAdapter: ListAdapter<Variant, RecyclerView.ViewHol
         return VIEW_TYPE_NO_PACKET
     }
     inner class ProductDetailVariantListViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView){
-        private val imageView: ImageView = itemView.findViewById(R.id.ivProductDetailMultipleVariantsIllustration)
-        private val name : TextView = itemView.findViewById(R.id.tvProductDetailMultipleVariantsName)
-        private val SKU : TextView = itemView.findViewById(R.id.tvProductDetailMultipleVariantsSKU)
-        private val available : TextView = itemView.findViewById(R.id.tvProductDetailMultipleVariantsAvailable)
-        private val cost : TextView = itemView.findViewById(R.id.tvProductDetailMultipleVariantsPrice)
-        private val onHand: TextView = itemView.findViewById(R.id.tvProductDetailMultipleVariantsOnHand)
-        private val subArrow: ImageView = itemView.findViewById(R.id.ivProductDetailMultipleVariantsSubArrow)
+        private val imageView: ImageView = itemView.findViewById(R.id.ivUnitListIllustration)
+        private val name : TextView = itemView.findViewById(R.id.tvUnitListName)
+        private val SKU : TextView = itemView.findViewById(R.id.tvUnitListSKU)
+        private val available : TextView = itemView.findViewById(R.id.tvUnitListAvailable)
+        private val cost : TextView = itemView.findViewById(R.id.tvUnitListPrice)
+        private val onHand: TextView = itemView.findViewById(R.id.tvUnitListOnHand)
+        private val subArrow: ImageView = itemView.findViewById(R.id.ivUnitListSubArrow)
         private var currentVariant: Variant = Variant()
 
         init{
