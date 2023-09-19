@@ -27,7 +27,7 @@
                 android:iconifiedByDefault="false"
                 android:padding="2dp"
                 android:queryHint="@string/name_sku_barcode"
-                android:background="@android:color/transparent"
+                android:queryBackground="@null"
                 />
         </androidx.cardview.widget.CardView>
 

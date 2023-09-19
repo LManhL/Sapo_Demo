@@ -1,8 +1,8 @@
 package com.example.sapodemo.data.network.repos
 
 import com.example.sapodemo.data.network.services.OrderApiService
-object OrderRepos {
+object OrderApi {
     val API: OrderApiService by lazy {
-        BaseRepos.RETROFIT.create(OrderApiService::class.java)
+        BaseApi.RETROFIT.create(OrderApiService::class.java)
     }
 }

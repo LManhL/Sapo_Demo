@@ -9,11 +9,10 @@ import com.bumptech.glide.Glide
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.Image
 
-class ImageListAdapter(_imageList: List<Image>): RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
-    var images = _imageList
+class ImageListAdapter(private val images: List<Image>): RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_images, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image_list, parent, false)
         return ImageViewHolder(view)
     }
 
@@ -22,11 +21,11 @@ class ImageListAdapter(_imageList: List<Image>): RecyclerView.Adapter<ImageListA
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image = images.get(position)
+        val image = images[position]
         holder.bind(image)
     }
     class ImageViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView){
-        val imageView: ImageView = itemView.findViewById(R.id.ivImagesProductImage)
+        private val imageView: ImageView = itemView.findViewById(R.id.ivImagesProductImage)
         fun bind(image: Image){
             Glide.with(itemView).load(image.fullPath)
                 .placeholder(R.drawable.ic_blank_photo)

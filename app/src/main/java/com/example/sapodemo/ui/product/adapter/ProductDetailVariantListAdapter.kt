@@ -108,11 +108,7 @@ class ProductDetailVariantListAdapter: ListAdapter<Variant, RecyclerView.ViewHol
         }
 
         override fun areContentsTheSame(oldItem: Variant, newItem: Variant): Boolean {
-            return when{
-                oldItem.id != newItem.id -> false
-                oldItem.name != newItem.name ->false
-                else ->true
-            }
+            return oldItem.id == newItem.id && oldItem.name == newItem.name
         }
     }
 }

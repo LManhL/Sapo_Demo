@@ -15,7 +15,7 @@ class ProductDetailPresenter(
                 res.body()?.let {
                     val product = res.body()!!.productResponse
                     viewModel.convertResponseToProduct(product)
-                    view.onSuccess(res.message())
+                    view.onSuccess(res.message().toString())
                 }
             }
             else view.onFail(res.message().toString())

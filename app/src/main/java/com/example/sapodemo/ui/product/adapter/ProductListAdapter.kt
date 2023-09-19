@@ -158,11 +158,7 @@ class ProductListAdapter() : ListAdapter<ProductPrototype,RecyclerView.ViewHolde
         }
 
         override fun areContentsTheSame(oldItem: ProductPrototype, newItem: ProductPrototype): Boolean {
-            return when{
-                oldItem.id != newItem.id -> false
-                oldItem.name != newItem.name ->false
-                else ->true
-            }
+            return oldItem.id == newItem.id && oldItem.name == newItem.name
         }
     }
 }

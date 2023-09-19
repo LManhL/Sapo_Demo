@@ -132,7 +132,6 @@ class CustomKeyBoard @JvmOverloads constructor(
 
     private fun handleClickDigit(v: View) {
         val value = keyValues[v.id]
-        Log.d("aaaaaaaaaaaaaa",value.toString())
         val prevText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
 
         if (prevText.startsWith("0") && !prevText.contains('.')) {

@@ -1,7 +1,6 @@
 package com.example.sapodemo.data.manager
 
 import android.content.Context
-import android.util.Log
 import com.example.sapodemo.data.network.model.order.JsonOrderSourceResponse
 import com.example.sapodemo.data.network.model.order.OrderPost
 import com.example.sapodemo.data.network.model.order.OrderResponse
@@ -9,9 +8,9 @@ import com.example.sapodemo.data.network.model.product.JsonProductResponse
 import com.example.sapodemo.data.network.model.product.JsonProductsResponse
 import com.example.sapodemo.data.network.model.product.JsonVariantResponse
 import com.example.sapodemo.data.network.model.product.JsonVariantsResponse
-import com.example.sapodemo.data.network.repos.OrderRepos
-import com.example.sapodemo.data.network.repos.ProductRepos
-import com.example.sapodemo.data.network.repos.VariantRepos
+import com.example.sapodemo.data.network.repos.OrderApi
+import com.example.sapodemo.data.network.repos.ProductApi
+import com.example.sapodemo.data.network.repos.VariantApi
 import com.example.sapodemo.data.sharepref.AppPreferencesHelper
 import retrofit2.Response
 
@@ -31,19 +30,19 @@ class AppDataManager(context: Context): DataManager {
         locationId: Int,
         requestBody: OrderPost
     ): Response<OrderResponse> {
-        return OrderRepos.API.postOrder(locationId,requestBody)
+        return OrderApi.API.postOrder(locationId,requestBody)
     }
 
     override suspend fun getOrderSources(): Response<JsonOrderSourceResponse> {
-        return OrderRepos.API.getOrderSources()
+        return OrderApi.API.getOrderSources()
     }
 
     override suspend fun getProducts(page: Int, limit: Int): Response<JsonProductsResponse> {
-        return ProductRepos.API.getProducts(page,limit)
+        return ProductApi.API.getProducts(page,limit)
     }
 
     override suspend fun getProduct(id: Int): Response<JsonProductResponse> {
-        return ProductRepos.API.getProduct(id)
+        return ProductApi.API.getProduct(id)
     }
 
     override suspend fun searchProduct(
@@ -51,15 +50,15 @@ class AppDataManager(context: Context): DataManager {
         page: Int,
         limit: Int
     ): Response<JsonProductsResponse> {
-        return ProductRepos.API.searchProduct(query,page,limit)
+        return ProductApi.API.searchProduct(query,page,limit)
     }
 
     override suspend fun getVariants(page: Int, limit: Int): Response<JsonVariantsResponse> {
-        return VariantRepos.API.getVariants(page,limit)
+        return VariantApi.API.getVariants(page,limit)
     }
 
     override suspend fun getVariant(productId: Int, variantId: Int): Response<JsonVariantResponse> {
-        return VariantRepos.API.getVariant(productId,variantId)
+        return VariantApi.API.getVariant(productId,variantId)
     }
 
     override suspend fun searchVariant(
@@ -67,6 +66,6 @@ class AppDataManager(context: Context): DataManager {
         page: Int,
         limit: Int
     ): Response<JsonVariantsResponse> {
-        return VariantRepos.API.searchVariant(query,page,limit)
+        return VariantApi.API.searchVariant(query,page,limit)
     }
 }

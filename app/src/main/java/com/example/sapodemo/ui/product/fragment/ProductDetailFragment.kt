@@ -31,8 +31,8 @@ import kotlinx.coroutines.launch
 class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailView {
 
     companion object {
-        const val PRODUCT_ID = "product_id"
-        const val VARIANT_ID = "variant_id"
+        const val PRODUCT_ID = "PRODUCT_ID"
+        const val VARIANT_ID = "VARIANT_ID"
     }
 
     private lateinit var binding: FragmentProductDetailBinding
@@ -68,7 +68,6 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
     }
 
     override fun onSuccess(response: String) {
-        Log.d("API response ProductDetailFragment", response)
         setUpView()
         binding.scrvProductDetailContainer.visibility = View.VISIBLE
     }
@@ -80,7 +79,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
     }
 
     override fun setUpView() {
-        setUpImageAdapter()
+        setUpImageListRecyclerView()
         setupClickListeners()
         binding.apply {
             llProductDetailSKUBarcodeWeightUnitContainer.visibility = if(isMultipleVariant == true) View.GONE else View.VISIBLE
@@ -168,7 +167,7 @@ class ProductDetailFragment : Fragment(), ProductDetailContract.ProductDetailVie
         val navController = view?.findNavController()
         navController?.navigate(R.id.action_productDetailFragment_to_variantDetailFragment,bundle)
     }
-    private fun setUpImageAdapter(){
+    private fun setUpImageListRecyclerView(){
         binding.rclvProductDetailImageList.apply {
             layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
             imageListAdapter = ImageListAdapter(imageList)

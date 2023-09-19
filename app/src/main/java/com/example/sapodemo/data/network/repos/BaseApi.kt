@@ -8,7 +8,7 @@ import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object BaseRepos {
+object BaseApi {
     private const val BASE_URL = "https://mobile-test.mysapogo.com/"
 
     private val HTTP_CLIENT = OkHttpClient.Builder().addInterceptor(Interceptor { chain ->

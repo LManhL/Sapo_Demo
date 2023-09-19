@@ -33,9 +33,9 @@ import kotlinx.coroutines.*
 class ProductListFragment : Fragment(), ProductListContract.ProductListView, MenuProvider {
 
     companion object {
-        const val PRODUCT_ID = "product_id"
-        const val VARIANT_ID = "variant_id"
-        const val IS_MULTIPLE_VARIANT = "is_multiple_variant"
+        const val PRODUCT_ID = "PRODUCT_ID"
+        const val VARIANT_ID = "VARIANT_ID"
+        const val IS_MULTIPLE_VARIANT = "IS_MULTIPLE_VARIANT"
     }
 
     private lateinit var binding: FragmentProductListBinding
@@ -87,7 +87,6 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
     }
 
     override fun updateViewInit(res: API_RESULT, response: String, enableLoadMore: Boolean) {
-        Log.d("API response ProductListFragment", response)
         isLoadMore = enableLoadMore
         binding.swprfsProductList.isRefreshing = false
         when (res) {
@@ -96,6 +95,7 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
             }
             API_RESULT.ERROR -> {
                 binding.tvProductListEmptyMessage.visibility = View.GONE
+                Log.d("API response ProductListFragment", response)
                 Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
             }
             API_RESULT.SUCCESS -> {
@@ -117,9 +117,11 @@ class ProductListFragment : Fragment(), ProductListContract.ProductListView, Men
         }
     }
     override fun updateViewLoadMore(res: API_RESULT, response: String, enableLoadMore: Boolean) {
-        Log.d("API response ProductListFragment", response)
         isLoadMore = enableLoadMore
-        if (res == API_RESULT.ERROR) Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
+        if (res == API_RESULT.ERROR) {
+            Log.d("API response ProductListFragment", response)
+            Toast.makeText(activity, response, Toast.LENGTH_SHORT).show()
+        }
     }
     override fun swipeRefresh() {
         CoroutineScope(Dispatchers.Main).launch {

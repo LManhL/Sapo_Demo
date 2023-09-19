@@ -29,8 +29,8 @@ import kotlinx.coroutines.launch
 class VariantDetailFragment : Fragment(), VariantDetailContract.VariantDetailView {
 
     companion object {
-        const val PRODUCT_ID = "product_id"
-        const val VARIANT_ID = "variant_id"
+        const val PRODUCT_ID = "PRODUCT_ID"
+        const val VARIANT_ID = "VARIANT_ID"
     }
 
     private lateinit var presenter: VariantDetailContract.VariantDetailPresenter
