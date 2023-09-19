@@ -48,6 +48,6 @@
         tools:layout="@layout/fragment_product_selection"
         android:id="@+id/productSelectionFragment"
         android:name="com.example.sapodemo.ui.order.fragment.ProductSelectionFragment"
-        android:label="@string/nav_product_selection"
-        />
+        android:label="@string/nav_product_selection">
+    </fragment>
 </navigation>

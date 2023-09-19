@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,6 +22,7 @@ import com.example.sapodemo.presenter.order.ProductSelectionPresenter
 import com.example.sapodemo.contract.order.ProductSelectionContract
 import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.presenter.order.OrderViewModel
+import com.example.sapodemo.presenter.order.ProductSelectionViewModel
 import com.example.sapodemo.ui.order.adapter.ProductOrderListAdapter
 import com.example.sapodemo.ui.order.custom.CustomOnQueryTextChangeListener
 import kotlinx.coroutines.*
@@ -29,7 +31,8 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
 
     private lateinit var binding: FragmentProductSelectionBinding
     private lateinit var productSelectionPresenter: ProductSelectionPresenter
-    private val model: OrderViewModel by navGraphViewModels(R.id.orderFragment)
+    private val productSelectionViewModel: ProductSelectionViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by navGraphViewModels(R.id.orderFragment)
     private val productOrderListAdapter = ProductOrderListAdapter()
     private var isLoadMore: Boolean = MetadataModel.ENABLE_LOAD_MORE
     private var isMultipleSelection: Boolean = false
@@ -38,7 +41,12 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        productSelectionPresenter = ProductSelectionPresenter(this, model, AppDataManager(context!!))
+        productSelectionPresenter = ProductSelectionPresenter(
+            this,
+            productSelectionViewModel,
+            AppDataManager(context!!),
+            orderViewModel
+        )
         isMultipleSelection = productSelectionPresenter.getSharePrefSelectionType()
     }
 
@@ -50,12 +58,6 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
         binding = FragmentProductSelectionBinding.inflate(inflater, container, false)
         initView()
         return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        model.productOrderList.postValue(mutableListOf())
-        model.convertItemSelectedHashmapToItemSelectedList()
     }
 
     override fun initData() {
@@ -117,13 +119,14 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
     private fun initView() {
         setUpEventListener()
         setUpRecycleView()
-        if (model.productOrderList.value.isNullOrEmpty()) initData()
+        if (productSelectionViewModel.productOrderList.value.isNullOrEmpty()) initData()
     }
 
     private fun setUpRecycleView() {
-        productOrderListAdapter.onClick = { product, position -> select(product, position)
+        productOrderListAdapter.onClick = { product, position ->
+            select(product, position)
         }
-        model.productOrderList.observe(this) { list ->
+        productSelectionViewModel.productOrderList.observe(this) { list ->
             productOrderListAdapter.submitList(list.toList())
         }
         binding.apply {
@@ -134,7 +137,7 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
-                        val count = model.productOrderList.value?.size
+                        val count = productSelectionViewModel.productOrderList.value?.size
                         if (count != null) {
                             if ((layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == count - 1
                                 && isLoadMore == MetadataModel.ENABLE_LOAD_MORE

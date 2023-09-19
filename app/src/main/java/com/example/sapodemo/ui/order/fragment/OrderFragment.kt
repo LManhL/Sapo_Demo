@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
@@ -30,6 +31,11 @@ import kotlinx.coroutines.launch
 
 
 class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
+
+    companion object {
+        const val ITEM_SELECT_HASH_MAP = "ITEM_SELECT_HASH_MAP"
+    }
+
     private lateinit var binding: FragmentOrderBinding
     private lateinit var presenter: OrderPresenter
     private lateinit var listDialog: ListDialog
@@ -85,6 +91,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
         }
         customKeyBoardDialog.show()
     }
+
     override fun onClickCancelItem(productOrder: ProductOrder, position: Int) {
         val yesNoDialog = OptionDialog(activity!!)
         yesNoDialog.showYesNoDialog(
@@ -98,6 +105,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
                 override fun onNoClicked() {}
             })
     }
+
     override fun createOrder() {
         CoroutineScope(Dispatchers.Main).launch {
             presenter.createOrder()
@@ -134,7 +142,8 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
     private fun setUpOrderSourceListDialog() {
         listDialog = ListDialog(activity!!)
-        listDialog.orderSourceListAdapter.onClick = { orderSource, i -> onSelectOrderSource(orderSource, i) }
+        listDialog.orderSourceListAdapter.onClick =
+            { orderSource, i -> onSelectOrderSource(orderSource, i) }
         model.orderSourceList.observe(this) {
             listDialog.orderSourceListAdapter.submitList(it.toList())
         }
@@ -143,12 +152,10 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     private fun setUpEventListener() {
         binding.apply {
             llOrderAddProduct.setOnClickListener {
-                val navController = view?.findNavController()
-                navController?.navigate(R.id.action_orderFragment_to_productSelectionFragment)
+                navigateToProductSelection()
             }
             edtOrderSearch.setOnClickListener {
-                val navController = view?.findNavController()
-                navController?.navigate(R.id.action_orderFragment_to_productSelectionFragment)
+                navigateToProductSelection()
             }
             btnOrderCreateOrder.setOnClickListener {
                 createOrder()
@@ -156,18 +163,26 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
         }
     }
 
+    private fun navigateToProductSelection() {
+        val navController = view?.findNavController()
+        navController?.navigate(R.id.action_orderFragment_to_productSelectionFragment)
+    }
+
     private fun setUpRecycleView() {
-        selectedProductListAdapter.onClickAdd = { productOrder, position -> onClickAddItem(productOrder, position) }
-        selectedProductListAdapter.onClickMinus = { productOrder, position -> onClickMinusItem(productOrder, position) }
-        selectedProductListAdapter.onClickCancel = { productOrder, position -> onClickCancelItem(productOrder, position) }
-        selectedProductListAdapter.onClickChangeQuantity = { productOrder, position -> onClickModifyQuantityItem(productOrder, position) }
+        selectedProductListAdapter.onClickAdd =
+            { productOrder, position -> onClickAddItem(productOrder, position) }
+        selectedProductListAdapter.onClickMinus =
+            { productOrder, position -> onClickMinusItem(productOrder, position) }
+        selectedProductListAdapter.onClickCancel =
+            { productOrder, position -> onClickCancelItem(productOrder, position) }
+        selectedProductListAdapter.onClickChangeQuantity =
+            { productOrder, position -> onClickModifyQuantityItem(productOrder, position) }
 
         model.itemSelectedList.observe(this) {
             selectedProductListAdapter.submitList(it.toList())
             if (it.isNullOrEmpty()) {
                 binding.llOrderAddProduct.visibility = View.VISIBLE
-            }
-            else binding.llOrderAddProduct.visibility = View.GONE
+            } else binding.llOrderAddProduct.visibility = View.GONE
         }
 
         binding.apply {

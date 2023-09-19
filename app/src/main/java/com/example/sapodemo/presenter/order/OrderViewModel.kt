@@ -15,8 +15,6 @@ class OrderViewModel : ViewModel() {
     val orderSourceList = MutableLiveData<List<OrderSource>>(emptyList())
     val selectedOrderSource = MutableLiveData<Pair<Int,OrderSource>>()
 
-    val productOrderList = MutableLiveData<List<ProductOrder>>(emptyList())
-
     fun convertOrderSourceResponseListAndAddToOrderSourceList(orderSourceResponseList: MutableList<OrderSourceResponse>) {
         val tmpList = orderSourceResponseList.map { OrderSource(it) }
         if(tmpList.isNotEmpty()){
@@ -47,11 +45,6 @@ class OrderViewModel : ViewModel() {
         itemSelectedHashMap.postValue(tmpMap)
     }
 
-    fun updateItemOfProductOrderList(position: Int, productOrder: ProductOrder) {
-        val tmpList = this.productOrderList.value?.toMutableList()
-        tmpList?.set(position, productOrder)
-        this.productOrderList.postValue(tmpList)
-    }
 
     fun updateItemOfItemSelectedList(position: Int, productOrder: ProductOrder) {
         val tmpList = this.itemSelectedList.value?.toMutableList()
@@ -65,35 +58,7 @@ class OrderViewModel : ViewModel() {
         this.itemSelectedList.postValue(tmpList)
     }
 
-    fun addItemToProductOrderList(productOrder: ProductOrder) {
-        val curList = this.productOrderList.value?.toMutableList()
-        curList?.add(productOrder)
-        this.productOrderList.postValue(curList)
-    }
-
-    fun removeLastItemOfProductOrderList() {
-        val curList = this.productOrderList.value?.toMutableList()
-        curList?.removeLast()
-        this.productOrderList.postValue(curList)
-    }
-
-    fun convertVariantResponseListAndAddToProductOrderList(
-        variantResponses: MutableList<VariantResponse>,
-        orderLineItemListPresenter: HashMap<Int, ProductOrder>
-    ) {
-        val tmpList = this.productOrderList.value?.toMutableList() ?: mutableListOf()
-        if (tmpList.isNotEmpty() && tmpList.last().id == ProductPrototype.ID_LOADING ) {
-            tmpList.removeLast()
-        }
-        variantResponses.forEach {
-            val productOrder = ProductOrder(it)
-            productOrder.quantity = orderLineItemListPresenter[productOrder.id]?.quantity ?: 0.0
-            tmpList.add(productOrder)
-        }
-        this.productOrderList.postValue(tmpList)
-    }
-
-    fun convertItemSelectedHashmapToItemSelectedList() {
-        itemSelectedList.postValue(itemSelectedHashMap.value?.toSortedMap()?.values?.toList() ?: emptyList())
+    fun convertItemSelectedHashmapToItemSelectedList(itemSelectedHashmap: Map<Int,ProductOrder>) {
+        itemSelectedList.postValue(itemSelectedHashmap.toSortedMap().values.toList())
     }
 }

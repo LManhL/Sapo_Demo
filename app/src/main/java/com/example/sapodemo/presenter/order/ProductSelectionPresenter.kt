@@ -12,20 +12,23 @@ import retrofit2.Response
 
 class ProductSelectionPresenter(
     private val view: ProductSelectionContract.ProductSelectionView,
-    private val viewModel: OrderViewModel,
-    private val appDataManager: AppDataManager
+    private val productSelectionViewModel: ProductSelectionViewModel,
+    private val appDataManager: AppDataManager,
+    private val orderViewModel: OrderViewModel
 ) : ProductSelectionContract.ProductSelectionPresenter {
     private val currentItemSelectedHashmap = HashMap<Int, ProductOrder>()
     private var page = ApiQuery.PAGE
     private var limit = ApiQuery.LIMIT
 
     init {
-        viewModel.itemSelectedHashMap.value?.let { currentItemSelectedHashmap.putAll(it) }
+        val itemSelectedHashmap = orderViewModel.itemSelectedHashMap.value ?: mapOf()
+        productSelectionViewModel.itemSelectedHashMap.postValue(itemSelectedHashmap)
+        currentItemSelectedHashmap.putAll(itemSelectedHashmap)
     }
 
     override suspend fun init(query: String) {
         try {
-            viewModel.productOrderList.postValue(mutableListOf())
+            productSelectionViewModel.productOrderList.postValue(mutableListOf())
             page = ApiQuery.PAGE
             val res = callApi(query)
             if (res.isSuccessful) {
@@ -36,7 +39,7 @@ class ProductSelectionPresenter(
                     val enableLoadMore = MetadataModel(res.body()!!.metadataResponse).enableLoadMore()
 
                     if (resVariantResponses.isNotEmpty()) {
-                        viewModel.convertVariantResponseListAndAddToProductOrderList(
+                        productSelectionViewModel.convertVariantResponseListAndAddToProductOrderList(
                             resVariantResponses,
                             currentItemSelectedHashmap
                         )
@@ -63,23 +66,23 @@ class ProductSelectionPresenter(
                     val enableLoadMore = MetadataModel(res.body()!!.metadataResponse).enableLoadMore()
 
                     if (resList.isNotEmpty()) {
-                        viewModel.convertVariantResponseListAndAddToProductOrderList(resList, currentItemSelectedHashmap
+                        productSelectionViewModel.convertVariantResponseListAndAddToProductOrderList(resList, currentItemSelectedHashmap
                         )
                         page += ApiQuery.PAGE
                         view.updateViewLoadMore(API_RESULT.SUCCESS, res.message(), enableLoadMore)
                     } else {
-                        viewModel.removeLastItemOfProductOrderList()
+                        productSelectionViewModel.removeLastItemOfProductOrderList()
                         view.updateViewLoadMore(API_RESULT.EMPTYLIST, res.message(), enableLoadMore)
                     }
                 }
             }
             else {
-                viewModel.removeLastItemOfProductOrderList()
+                productSelectionViewModel.removeLastItemOfProductOrderList()
                 view.updateViewLoadMore(API_RESULT.ERROR, res.message().toString(), MetadataModel.DISABLE_LOAD_MORE)
             }
         }
         catch (e: Exception){
-            viewModel.removeLastItemOfProductOrderList()
+            productSelectionViewModel.removeLastItemOfProductOrderList()
             view.updateViewLoadMore(API_RESULT.ERROR, e.message.toString(), MetadataModel.DISABLE_LOAD_MORE)
         }
     }
@@ -87,18 +90,14 @@ class ProductSelectionPresenter(
     override fun select(productOrder: ProductOrder, position: Int) {
         val productOrderCopy = productOrder.copyOf()
         if(productOrderCopy.quantity < ProductOrder.MAX_QUANTITY) productOrderCopy.quantity += 1
-        viewModel.updateItemOfProductOrderList(position, productOrderCopy)
+        productSelectionViewModel.updateItemOfProductOrderList(position, productOrderCopy)
         currentItemSelectedHashmap[productOrder.id!!] = productOrderCopy
-    }
-
-    override fun submit() {
-        viewModel.itemSelectedHashMap.postValue(currentItemSelectedHashmap)
     }
 
     override fun reselect() {
         currentItemSelectedHashmap.clear()
-        viewModel.itemSelectedHashMap.value?.let { currentItemSelectedHashmap.putAll(it) }
-        val tmpList = viewModel.productOrderList.value?.toMutableList()
+        productSelectionViewModel.itemSelectedHashMap.value?.let { currentItemSelectedHashmap.putAll(it) }
+        val tmpList = productSelectionViewModel.productOrderList.value?.toMutableList()
         tmpList?.let { list ->
             for ((index, productOrder) in list.withIndex()) {
                 if (productOrder.quantity != 0.0) {
@@ -108,7 +107,7 @@ class ProductSelectionPresenter(
                 }
             }
         }
-        viewModel.productOrderList.postValue(tmpList)
+        productSelectionViewModel.productOrderList.postValue(tmpList)
     }
 
     override fun getSharePrefSelectionType(): Boolean {
@@ -118,13 +117,17 @@ class ProductSelectionPresenter(
     override fun setSharePrefSelectionType(type: Boolean) {
         return appDataManager.setSelectionType(type)
     }
+    override fun submit() {
+        orderViewModel.itemSelectedHashMap.postValue(currentItemSelectedHashmap)
+        orderViewModel.convertItemSelectedHashmapToItemSelectedList(currentItemSelectedHashmap)
+    }
 
     private suspend fun callApi(query: String): Response<JsonVariantsResponse>{
         return if (query.isEmpty()) appDataManager.getVariants(page,limit)
         else appDataManager.searchVariant(query,page,limit)
     }
     private fun addLoadingItem() {
-        viewModel.addItemToProductOrderList(ProductOrder.getItemLoading())
+        productSelectionViewModel.addItemToProductOrderList(ProductOrder.getItemLoading())
     }
 
 }
