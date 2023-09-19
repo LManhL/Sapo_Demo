@@ -13,13 +13,22 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.ProductOrder
-import com.example.sapodemo.util.FormatNumberUtil
+import com.example.sapodemo.presenter.util.FormatNumberUtil
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 class CustomKeyBoard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
+
+    companion object{
+        const val MAX_QUANTITY = 999999.999
+    }
+
     private var mButton1: Button? = null
     private var mButton2: Button? = null
     private var mButton3: Button? = null
@@ -145,15 +154,15 @@ class CustomKeyBoard @JvmOverloads constructor(
         if (currentNumber == null) {
             inputConnection!!.deleteSurroundingText(1, 0)
         } else {
-            if (currentNumber >= ProductOrder.MAX_QUANTITY) {
-                currentNumber = ProductOrder.MAX_QUANTITY
+            if (currentNumber >= MAX_QUANTITY) {
+                currentNumber = MAX_QUANTITY
             }
             inputConnection!!.deleteSurroundingText(currentText.length, currentText.length)
 
             if (!currentText.contains('.')) {
-                inputConnection!!.commitText(FormatNumberUtil.formatNumberFloor(currentNumber), 1)
+                inputConnection!!.commitText(formatNumberFloor(currentNumber), 1)
             } else {
-                val currentNumberToString: String = FormatNumberUtil.formatNumberFloor(currentNumber)
+                val currentNumberToString: String = formatNumberFloor(currentNumber)
                 val parts = currentNumberToString.split(".")
                 val integerPart = parts[0]
                 var decimalPart = currentText.split('.')[1]
@@ -163,5 +172,10 @@ class CustomKeyBoard @JvmOverloads constructor(
             }
         }
         if (currentText.isEmpty()) inputConnection!!.commitText("0", 1)
+    }
+    private fun formatNumberFloor(number: Double): String {
+        val decimalFormat = DecimalFormat("#,##0.###", DecimalFormatSymbols(Locale.US))
+        decimalFormat.roundingMode = RoundingMode.FLOOR
+        return decimalFormat.format(number)
     }
 }

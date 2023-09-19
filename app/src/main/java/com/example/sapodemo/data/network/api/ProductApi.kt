@@ -1,4 +1,4 @@
-package com.example.sapodemo.data.network.repos
+package com.example.sapodemo.data.network.api
 
 import com.example.sapodemo.data.network.services.ProductApiService
 

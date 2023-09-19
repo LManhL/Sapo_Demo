@@ -3,7 +3,7 @@ package com.example.sapodemo.presenter.model
 import com.example.sapodemo.data.network.model.product.ImageVariantResponse
 import com.example.sapodemo.data.network.model.product.InventoryResponse
 import com.example.sapodemo.data.network.model.product.VariantResponse
-import com.example.sapodemo.util.FormatNumberUtil
+import com.example.sapodemo.presenter.util.FormatNumberUtil
 
 
 open class Variant(): ProductPrototype() {

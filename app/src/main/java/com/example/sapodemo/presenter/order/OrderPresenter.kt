@@ -7,7 +7,7 @@ import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.contract.order.OrderContract
 import com.example.sapodemo.data.manager.AppDataManager
 import com.example.sapodemo.presenter.model.OrderSource
-import com.example.sapodemo.util.FormatNumberUtil
+import com.example.sapodemo.presenter.util.FormatNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

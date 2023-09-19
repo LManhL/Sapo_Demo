@@ -1,5 +1,6 @@
 package com.example.sapodemo.ui.order.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +13,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.ProductOrder
 
-class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
-    ProductDifferCallback
+class ItemSelectedAdapter : ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
+    ProductOrderDifferCallback
 ) {
-    var onClickMinus: ((ProductOrder, Int)->Unit)? = null
-    var onClickAdd: ((ProductOrder, Int)->Unit)? = null
-    var onClickCancel: ((ProductOrder, Int)->Unit)? = null
+
+    var onClickMinus: ((ProductOrder, Int) -> Unit)? = null
+    var onClickAdd: ((ProductOrder, Int) -> Unit)? = null
+    var onClickCancel: ((ProductOrder, Int) -> Unit)? = null
     var onClickChangeQuantity: ((ProductOrder, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_fragment_order, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_fragment_order, parent, false)
         return OrderLineItemViewHolder(view)
     }
 
@@ -31,7 +34,28 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
         orderLineItemViewHolder.bind(productOrder)
     }
 
-    inner class OrderLineItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val bundle = payloads[0] as Bundle
+            for (key: String in bundle.keySet()) {
+                if (key == ProductOrderDifferCallback.QUANTITY_PAYLOAD) {
+                    (holder as OrderLineItemViewHolder).apply {
+                        setCurrentValue(getItem(position))
+                        bindQuantity()
+                        bindWarning()
+                    }
+                }
+            }
+        }
+    }
+
+    inner class OrderLineItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.findViewById(R.id.tvOrderName)
         private val sku: TextView = itemView.findViewById(R.id.tvOrderSkuCode)
         private val price: TextView = itemView.findViewById(R.id.tvOrderItemPrice)
@@ -47,47 +71,44 @@ class ItemSelectedAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(
                 onClickMinus?.invoke(currentProductOrder, adapterPosition)
             }
             add.setOnClickListener {
-                onClickAdd?.invoke(currentProductOrder,adapterPosition)
+                onClickAdd?.invoke(currentProductOrder, adapterPosition)
             }
             cancel.setOnClickListener {
-                onClickCancel?.invoke(currentProductOrder,adapterPosition)
+                onClickCancel?.invoke(currentProductOrder, adapterPosition)
             }
-            quantity.setOnClickListener{
+            quantity.setOnClickListener {
                 onClickChangeQuantity?.invoke(currentProductOrder, adapterPosition)
             }
 
         }
-        fun bind(productOrder: ProductOrder){
+
+        fun setCurrentValue(productOrder: ProductOrder){
             currentProductOrder = productOrder
+        }
+
+        fun bind(productOrder: ProductOrder) {
+            setCurrentValue(productOrder)
             name.text = currentProductOrder.nameToString()
             sku.text = currentProductOrder.skuToString()
-            quantity.text = bindQuantity()
-            price.text = bindPrice()
+            bindQuantity()
+            bindPrice()
             bindWarning()
         }
-        private fun bindWarning(){
+        fun bindQuantity() {
+            quantity.text = currentProductOrder.quantityToString()
+        }
+
+        fun bindWarning() {
             val available = currentProductOrder.calculateTotalAvailable()
-            if(currentProductOrder.quantity > available){
+            if (currentProductOrder.quantity > available) {
                 warning.visibility = View.VISIBLE
-            }
-            else warning.visibility = View.GONE
-        }
-        private fun bindPrice(): String{
-            return currentProductOrder.retailPriceToString()
-        }
-        private fun bindQuantity(): String{
-            return currentProductOrder.quantityToString()
+            } else warning.visibility = View.GONE
         }
 
-    }
-    object ProductDifferCallback : DiffUtil.ItemCallback<ProductOrder>() {
-        override fun areItemsTheSame(oldItem: ProductOrder, newItem: ProductOrder): Boolean {
-            return oldItem.id == newItem.id
+        private fun bindPrice() {
+            price.text = currentProductOrder.retailPriceToString()
         }
 
-        override fun areContentsTheSame(oldItem: ProductOrder, newItem: ProductOrder): Boolean {
-            return oldItem.id == newItem.id && oldItem.quantity == newItem.quantity
-        }
     }
 
 }

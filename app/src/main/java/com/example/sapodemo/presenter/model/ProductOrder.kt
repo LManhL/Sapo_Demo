@@ -1,7 +1,7 @@
 package com.example.sapodemo.presenter.model
 
 import com.example.sapodemo.data.network.model.product.VariantResponse
-import com.example.sapodemo.util.FormatNumberUtil
+import com.example.sapodemo.presenter.util.FormatNumberUtil
 
 class ProductOrder() : Variant() {
 

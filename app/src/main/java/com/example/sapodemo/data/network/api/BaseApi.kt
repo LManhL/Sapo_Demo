@@ -1,4 +1,4 @@
-package com.example.sapodemo.data.network.repos
+package com.example.sapodemo.data.network.api
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor

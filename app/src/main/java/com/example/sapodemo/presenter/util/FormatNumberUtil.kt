@@ -1,4 +1,4 @@
-package com.example.sapodemo.util
+package com.example.sapodemo.presenter.util
 
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -10,11 +10,6 @@ object FormatNumberUtil {
     fun formatNumberCeil(number: Double): String {
         val decimalFormat = DecimalFormat("#,##0.###", DecimalFormatSymbols(Locale.US))
         decimalFormat.roundingMode = RoundingMode.CEILING
-        return decimalFormat.format(number)
-    }
-    fun formatNumberFloor(number: Double): String {
-        val decimalFormat = DecimalFormat("#,##0.###", DecimalFormatSymbols(Locale.US))
-        decimalFormat.roundingMode = RoundingMode.FLOOR
         return decimalFormat.format(number)
     }
 }

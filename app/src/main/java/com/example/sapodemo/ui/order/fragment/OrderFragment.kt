@@ -24,7 +24,7 @@ import com.example.sapodemo.presenter.order.OrderViewModel
 import com.example.sapodemo.ui.order.adapter.ItemSelectedAdapter
 import com.example.sapodemo.ui.order.dialog.CustomKeyBoardDialog
 import com.example.sapodemo.ui.order.dialog.ListDialog
-import com.example.sapodemo.util.FormatNumberUtil
+import com.example.sapodemo.presenter.util.FormatNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,7 +79,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     override fun onClickModifyQuantityItem(productOrder: ProductOrder, position: Int) {
         val customKeyBoardDialog = CustomKeyBoardDialog(
             activity!!,
-            FormatNumberUtil.formatNumberFloor(productOrder.quantity)
+            productOrder.quantityToString()
         )
         customKeyBoardDialog.onClickEnter = { numberString ->
             presenter.handleSubmitQuantity(productOrder, position, numberString)

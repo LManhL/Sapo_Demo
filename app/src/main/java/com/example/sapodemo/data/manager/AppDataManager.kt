@@ -8,9 +8,9 @@ import com.example.sapodemo.data.network.model.product.JsonProductResponse
 import com.example.sapodemo.data.network.model.product.JsonProductsResponse
 import com.example.sapodemo.data.network.model.product.JsonVariantResponse
 import com.example.sapodemo.data.network.model.product.JsonVariantsResponse
-import com.example.sapodemo.data.network.repos.OrderApi
-import com.example.sapodemo.data.network.repos.ProductApi
-import com.example.sapodemo.data.network.repos.VariantApi
+import com.example.sapodemo.data.network.api.OrderApi
+import com.example.sapodemo.data.network.api.ProductApi
+import com.example.sapodemo.data.network.api.VariantApi
 import com.example.sapodemo.data.sharepref.AppPreferencesHelper
 import retrofit2.Response
 

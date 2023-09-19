@@ -1,9 +1,11 @@
 package com.example.sapodemo.ui.order.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -15,7 +17,7 @@ import com.example.sapodemo.R
 import com.example.sapodemo.presenter.model.ProductOrder
 import com.example.sapodemo.presenter.model.ProductPrototype
 
-class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(ProductDifferCallback
+class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder>(ProductOrderDifferCallback
 ) {
     companion object{
         const val VIEW_TYPE_LOADING = 0
@@ -42,10 +44,31 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val productOrder = getItem(position)
         if(holder.itemViewType == VIEW_TYPE_VARIANT){
-            val productSelectionViewHolder: ProductSelectionAdapter.ProductSelectionViewHolder = holder as ProductSelectionViewHolder
-            productSelectionViewHolder.bind(productOrder)
+            (holder as ProductSelectionViewHolder).bind(getItem(position))
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(holder.itemViewType == VIEW_TYPE_VARIANT){
+            if(payloads.isEmpty()){
+                super.onBindViewHolder(holder, position, payloads)
+            }
+            else{
+                val bundle = payloads[0] as Bundle
+                for(key: String in bundle.keySet()){
+                    if(key == ProductOrderDifferCallback.QUANTITY_PAYLOAD) {
+                        (holder as ProductSelectionViewHolder).apply {
+                            setCurrentValue(getItem(position))
+                            bindQuantity()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -57,18 +80,22 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
         private val available : TextView = itemView.findViewById(R.id.tvProductSelectionAvailable)
         private val cost : TextView = itemView.findViewById(R.id.tvProductSelectionCost)
         private val quantity: TextView = itemView.findViewById(R.id.tvProductSelectionQuantity)
+        private val blinkAnimation = AnimationUtils.loadAnimation(itemView.context, R.anim.blink)
         private var currentProductOrder = ProductOrder()
 
         init{
             itemView.setOnClickListener{
-                currentProductOrder.let {
-                    onClick?.invoke(it,adapterPosition)
-                }
+                it.startAnimation(blinkAnimation)
+                onClick?.invoke(currentProductOrder,adapterPosition)
             }
         }
 
-        fun bind(productOrder: ProductOrder){
+        fun setCurrentValue(productOrder: ProductOrder){
             currentProductOrder = productOrder
+        }
+
+        fun bind(productOrder: ProductOrder){
+            setCurrentValue(productOrder)
             Glide.with(itemView).load(currentProductOrder.getImagePath())
                 .placeholder(R.drawable.ic_blank_photo)
                 .fallback(R.drawable.ic_blank_photo)
@@ -82,7 +109,7 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
             cost.text = bindRetailPrice()
             bindQuantity()
         }
-        private fun bindQuantity(){
+        fun bindQuantity(){
             if(currentProductOrder.quantity == 0.0){
                 quantity.visibility = View.GONE
             }
@@ -104,14 +131,5 @@ class ProductSelectionAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
     }
     class LoadingViewHolder(ItemView: View): RecyclerView.ViewHolder(ItemView){
         private val progressBar: ProgressBar = itemView.findViewById(R.id.pgrbLoading)
-    }
-    object ProductDifferCallback : DiffUtil.ItemCallback<ProductOrder>() {
-        override fun areItemsTheSame(oldItem: ProductOrder, newItem: ProductOrder): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: ProductOrder, newItem: ProductOrder): Boolean {
-            return oldItem.id == newItem.id && oldItem.quantity == newItem.quantity
-        }
     }
 }
