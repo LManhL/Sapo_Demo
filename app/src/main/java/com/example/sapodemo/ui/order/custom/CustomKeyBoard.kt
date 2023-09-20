@@ -1,9 +1,7 @@
 package com.example.sapodemo.ui.order.custom
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +10,6 @@ import android.view.inputmethod.InputConnection
 import android.widget.Button
 import android.widget.LinearLayout
 import com.example.sapodemo.R
-import com.example.sapodemo.presenter.model.ProductOrder
-import com.example.sapodemo.presenter.util.FormatNumberUtil
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -25,7 +21,7 @@ class CustomKeyBoard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
-    companion object{
+    companion object {
         const val MAX_QUANTITY = 999999.999
     }
 
@@ -111,32 +107,28 @@ class CustomKeyBoard @JvmOverloads constructor(
                 handleClickDigit(v)
             }
         }
-        setValue()
+        formatAndSetValue()
     }
 
     fun initContent(initValue: String) {
         inputConnection?.commitText(initValue, 1)
     }
 
-    fun onClickDeleteAll(){
+    fun onClickDeleteAll() {
         val currentText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
         inputConnection!!.deleteSurroundingText(currentText.length, currentText.length)
         inputConnection!!.commitText("0", 1)
     }
 
     private fun handleClickDelete() {
-        val selectedText = inputConnection!!.getSelectedText(0)
-        if (TextUtils.isEmpty(selectedText)) {
-            inputConnection!!.deleteSurroundingText(1, 0)
-        } else {
-            inputConnection!!.commitText("", 1)
-        }
+        inputConnection!!.deleteSurroundingText(1, 0)
     }
 
     private fun handleClickDot(v: View) {
         val value = keyValues[v.id]
-        val prevText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
-        if (!prevText.contains('.')) inputConnection!!.commitText(value, 1)
+        val currentText =
+            inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
+        if (!currentText.contains('.')) inputConnection!!.commitText(value, 1)
     }
 
     private fun handleClickDigit(v: View) {
@@ -146,17 +138,26 @@ class CustomKeyBoard @JvmOverloads constructor(
         if (prevText.startsWith("0") && !prevText.contains('.')) {
             inputConnection!!.deleteSurroundingText(1, 0)
         }
+
         inputConnection!!.commitText(value, 1)
     }
-    private fun setValue(){
+
+    private fun formatAndSetValue() {
         val currentText = inputConnection!!.getExtractedText(ExtractedTextRequest(), 0).text.toString()
+
+        if (currentText.isEmpty()) {
+            inputConnection!!.commitText("0", 1)
+            return
+        }
+
         var currentNumber = currentText.filter { it.isDigit() || it == '.' }.toDoubleOrNull()
         if (currentNumber == null) {
-            inputConnection!!.deleteSurroundingText(1, 0)
+            // Do nothing
         } else {
             if (currentNumber >= MAX_QUANTITY) {
                 currentNumber = MAX_QUANTITY
             }
+
             inputConnection!!.deleteSurroundingText(currentText.length, currentText.length)
 
             if (!currentText.contains('.')) {
@@ -164,15 +165,17 @@ class CustomKeyBoard @JvmOverloads constructor(
             } else {
                 val currentNumberToString: String = formatNumberFloor(currentNumber)
                 val parts = currentNumberToString.split(".")
+
                 val integerPart = parts[0]
                 var decimalPart = currentText.split('.')[1]
                 decimalPart = if (decimalPart.length > 3) decimalPart.subSequence(0, 3).toString() else decimalPart
+
                 val res = "$integerPart.$decimalPart"
                 inputConnection!!.commitText(res, 1)
             }
         }
-        if (currentText.isEmpty()) inputConnection!!.commitText("0", 1)
     }
+
     private fun formatNumberFloor(number: Double): String {
         val decimalFormat = DecimalFormat("#,##0.###", DecimalFormatSymbols(Locale.US))
         decimalFormat.roundingMode = RoundingMode.FLOOR
