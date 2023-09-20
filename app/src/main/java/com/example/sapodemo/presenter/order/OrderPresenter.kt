@@ -109,6 +109,13 @@ class OrderPresenter(
         }
     }
 
+    fun setItemSelectedMap(itemSelectedMap: Map<Int,ProductOrder>){
+        viewModel.itemSelectedHashMap.postValue(itemSelectedMap)
+    }
+    fun setItemSelectedList(itemSelectedMap: Map<Int, ProductOrder>){
+        viewModel.convertItemSelectedHashmapToItemSelectedList(itemSelectedMap)
+    }
+
     fun totalQuantityToString(): String {
         return FormatNumberUtil.formatNumberCeil(calculateTotalQuantity())
     }

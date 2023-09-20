@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import com.example.sapodemo.ui.order.dialog.CustomKeyBoardDialog
 import com.example.sapodemo.ui.order.dialog.ListDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -61,11 +63,11 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController = view.findNavController()
+        val navController = findNavController()
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<Map<Int,ProductOrder>>(ITEM_SELECT_HASH_MAP)
             ?.observe(viewLifecycleOwner) {
-                model.itemSelectedHashMap.postValue(it)
-                model.convertItemSelectedHashmapToItemSelectedList(it)
+                presenter.setItemSelectedMap(it)
+                presenter.setItemSelectedList(it)
             }
     }
 
@@ -138,6 +140,13 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
     }
 
     private fun initView() {
+
+        binding.rlOrderContainer.visibility = View.GONE
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(100)
+            binding.rlOrderContainer.visibility = View.VISIBLE
+        }
+
         setUpRecycleView()
         setUpEventListener()
         setUpOrderSourceListDialog()
@@ -149,6 +158,7 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
             binding.tvOrderProvisional.text = presenter.provisionalToString()
         }
     }
+
 
     private fun setUpOrderSourceListDialog() {
         listDialog = ListDialog(activity!!)

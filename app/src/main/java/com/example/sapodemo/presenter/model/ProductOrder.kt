@@ -2,8 +2,9 @@ package com.example.sapodemo.presenter.model
 
 import com.example.sapodemo.data.network.model.product.VariantResponse
 import com.example.sapodemo.presenter.util.FormatNumberUtil
+import java.io.Serializable
 
-class ProductOrder() : Variant() {
+class ProductOrder() : Variant(), Serializable {
 
     companion object{
 
@@ -19,9 +20,6 @@ class ProductOrder() : Variant() {
 
     constructor(variantResponse: VariantResponse): this(){
         super.convertVariantResponseToModel(variantResponse)
-    }
-    fun priceToString(): String{
-        return calculatePrice().toString()
     }
     fun calculatePrice(): Double{
         return variantRetailPrice * quantity
