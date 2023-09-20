@@ -8,7 +8,6 @@ class ProductSelectionContract {
         suspend fun init(query: String)
         suspend fun loadMoreData(query: String)
         fun select(productOrder: ProductOrder, position: Int)
-        fun submit()
         fun reselect()
         fun getSharePrefSelectionType(): Boolean
         fun setSharePrefSelectionType(type: Boolean)

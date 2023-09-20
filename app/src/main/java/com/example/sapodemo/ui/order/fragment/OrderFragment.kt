@@ -59,6 +59,16 @@ class OrderFragment : Fragment(), OrderContract.OrderView, MenuProvider {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val navController = view.findNavController()
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<Map<Int,ProductOrder>>(ITEM_SELECT_HASH_MAP)
+            ?.observe(viewLifecycleOwner) {
+                model.itemSelectedHashMap.postValue(it)
+                model.convertItemSelectedHashmapToItemSelectedList(it)
+            }
+    }
+
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.top_app_bar_menu_order, menu)
     }

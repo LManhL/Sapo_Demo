@@ -45,7 +45,7 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
             this,
             productSelectionViewModel,
             AppDataManager(context!!),
-            orderViewModel
+            orderViewModel.itemSelectedHashMap.value ?: mapOf()
         )
         isMultipleSelection = productSelectionPresenter.getSharePrefSelectionType()
     }
@@ -111,8 +111,11 @@ class ProductSelectionFragment : Fragment(), ProductSelectionContract.ProductSel
     }
 
     override fun submit() {
-        productSelectionPresenter.submit()
         val navController = view?.findNavController()
+        navController?.previousBackStackEntry?.savedStateHandle?.set(
+            OrderFragment.ITEM_SELECT_HASH_MAP,
+            productSelectionPresenter.getItemSelectedHashMap()
+        )
         navController?.popBackStack()
     }
 

@@ -14,16 +14,15 @@ class ProductSelectionPresenter(
     private val view: ProductSelectionContract.ProductSelectionView,
     private val productSelectionViewModel: ProductSelectionViewModel,
     private val appDataManager: AppDataManager,
-    private val orderViewModel: OrderViewModel
+    _itemSelectedMap: Map<Int,ProductOrder>
 ) : ProductSelectionContract.ProductSelectionPresenter {
     private val currentItemSelectedHashmap = HashMap<Int, ProductOrder>()
     private var page = ApiQuery.PAGE
     private var limit = ApiQuery.LIMIT
 
     init {
-        val itemSelectedHashmap = orderViewModel.itemSelectedHashMap.value ?: mapOf()
-        productSelectionViewModel.itemSelectedHashMap.postValue(itemSelectedHashmap)
-        currentItemSelectedHashmap.putAll(itemSelectedHashmap)
+        productSelectionViewModel.itemSelectedHashMap.postValue(_itemSelectedMap)
+        currentItemSelectedHashmap.putAll(_itemSelectedMap)
     }
 
     override suspend fun init(query: String) {
@@ -117,11 +116,9 @@ class ProductSelectionPresenter(
     override fun setSharePrefSelectionType(type: Boolean) {
         return appDataManager.setSelectionType(type)
     }
-    override fun submit() {
-        orderViewModel.itemSelectedHashMap.postValue(currentItemSelectedHashmap)
-        orderViewModel.convertItemSelectedHashmapToItemSelectedList(currentItemSelectedHashmap)
+    fun getItemSelectedHashMap(): HashMap<Int,ProductOrder>{
+        return currentItemSelectedHashmap
     }
-
     private suspend fun callApi(query: String): Response<JsonVariantsResponse>{
         return if (query.isEmpty()) appDataManager.getVariants(page,limit)
         else appDataManager.searchVariant(query,page,limit)
