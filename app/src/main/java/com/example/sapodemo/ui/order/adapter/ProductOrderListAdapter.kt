@@ -121,7 +121,7 @@ class ProductOrderListAdapter: ListAdapter<ProductOrder, RecyclerView.ViewHolder
             return currentProductOrder.getTotalAvailableToString()
         }
         private fun bindSKU(context: Context): String{
-            val skuString = context?.getString(R.string.sku)
+            val skuString = context.getString(R.string.sku)
             return "$skuString: ${currentProductOrder.skuToString()}"
         }
         private fun bindRetailPrice():String{
